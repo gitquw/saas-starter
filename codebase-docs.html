@@ -1,0 +1,4492 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS Starter Codebase Documentation</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 1200px; margin: 0 auto; padding: 20px; background: #f9f9f9; }
+        h1, h2, h3 { color: #111; }
+        .file-container { background: white; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 24px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .file-header { background: #f0f0f0; padding: 10px 15px; border-bottom: 1px solid #ddd; font-weight: 600; font-family: monospace; display: flex; justify-content: space-between; }
+        .file-size { color: #666; font-size: 0.9em; font-weight: normal; }
+        pre { margin: 0; padding: 15px; overflow-x: auto; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; font-size: 13px; line-height: 1.4; background: #fafafa; }
+        .nav { background: white; padding: 15px; border-radius: 6px; border: 1px solid #ddd; margin-bottom: 24px; max-height: 400px; overflow-y: auto; }
+        .nav ul { list-style: none; padding-left: 20px; }
+        .nav a { color: #0366d6; text-decoration: none; }
+        .nav a:hover { text-decoration: underline; }
+        .too-large { padding: 15px; color: #888; font-style: italic; }
+    </style>
+</head>
+<body>
+    <h1>SaaS Starter Codebase Documentation</h1>
+    <p>This document contains the source code for the saas-starter application.</p>
+    
+    <div class="nav">
+        <h2>Files Index</h2>
+        <ul>
+  <li><a href="#app--dashboard--dashboard-activity-loading-tsx">app\(dashboard)\dashboard\activity\loading.tsx</a> 0.5 KB</li><li><a href="#app--dashboard--dashboard-activity-page-tsx">app\(dashboard)\dashboard\activity\page.tsx</a> 4.3 KB</li><li><a href="#app--dashboard--dashboard-general-page-tsx">app\(dashboard)\dashboard\general\page.tsx</a> 3.1 KB</li><li><a href="#app--dashboard--dashboard-layout-tsx">app\(dashboard)\dashboard\layout.tsx</a> 2.6 KB</li><li><a href="#app--dashboard--dashboard-page-tsx">app\(dashboard)\dashboard\page.tsx</a> 8.8 KB</li><li><a href="#app--dashboard--dashboard-security-page-tsx">app\(dashboard)\dashboard\security\page.tsx</a> 5.2 KB</li><li><a href="#app--dashboard--layout-tsx">app\(dashboard)\layout.tsx</a> 3.2 KB</li><li><a href="#app--dashboard--page-tsx">app\(dashboard)\page.tsx</a> 8.1 KB</li><li><a href="#app--dashboard--pricing-page-tsx">app\(dashboard)\pricing\page.tsx</a> 2.9 KB</li><li><a href="#app--dashboard--pricing-submit-button-tsx">app\(dashboard)\pricing\submit-button.tsx</a> 0.6 KB</li><li><a href="#app--dashboard--terminal-tsx">app\(dashboard)\terminal.tsx</a> 2.1 KB</li><li><a href="#app--login--actions-ts">app\(login)\actions.ts</a> 11.5 KB</li><li><a href="#app--login--login-tsx">app\(login)\login.tsx</a> 5.5 KB</li><li><a href="#app--login--sign-in-page-tsx">app\(login)\sign-in\page.tsx</a> 0.2 KB</li><li><a href="#app--login--sign-up-page-tsx">app\(login)\sign-up\page.tsx</a> 0.2 KB</li><li><a href="#app-api-stripe-checkout-route-ts">app\api\stripe\checkout\route.ts</a> 2.9 KB</li><li><a href="#app-api-stripe-webhook-route-ts">app\api\stripe\webhook\route.ts</a> 1.1 KB</li><li><a href="#app-api-team-route-ts">app\api\team\route.ts</a> 0.2 KB</li><li><a href="#app-api-user-route-ts">app\api\user\route.ts</a> 0.1 KB</li><li><a href="#app-globals-css">app\globals.css</a> 8.0 KB</li><li><a href="#app-layout-tsx">app\layout.tsx</a> 1.1 KB</li><li><a href="#app-not-found-tsx">app\not-found.tsx</a> 1.0 KB</li><li><a href="#components-ui-avatar-tsx">components\ui\avatar.tsx</a> 1.1 KB</li><li><a href="#components-ui-button-tsx">components\ui\button.tsx</a> 2.2 KB</li><li><a href="#components-ui-card-tsx">components\ui\card.tsx</a> 2.0 KB</li><li><a href="#components-ui-dropdown-menu-tsx">components\ui\dropdown-menu.tsx</a> 8.4 KB</li><li><a href="#components-ui-input-tsx">components\ui\input.tsx</a> 1.0 KB</li><li><a href="#components-ui-label-tsx">components\ui\label.tsx</a> 0.6 KB</li><li><a href="#components-ui-radio-group-tsx">components\ui\radio-group.tsx</a> 1.5 KB</li><li><a href="#components-json">components.json</a> 0.4 KB</li><li><a href="#docker-compose-yml">docker-compose.yml</a> 0.3 KB</li><li><a href="#drizzle-config-ts">drizzle.config.ts</a> 0.2 KB</li><li><a href="#lib-auth-middleware-ts">lib\auth\middleware.ts</a> 2.0 KB</li><li><a href="#lib-auth-session-ts">lib\auth\session.ts</a> 1.6 KB</li><li><a href="#lib-db-drizzle-ts">lib\db\drizzle.ts</a> 0.4 KB</li><li><a href="#lib-db-queries-ts">lib\db\queries.ts</a> 3.0 KB</li><li><a href="#lib-db-schema-ts">lib\db\schema.ts</a> 4.6 KB</li><li><a href="#lib-db-seed-ts">lib\db\seed.ts</a> 1.9 KB</li><li><a href="#lib-db-setup-ts">lib\db\setup.ts</a> 6.4 KB</li><li><a href="#lib-payments-actions-ts">lib\payments\actions.ts</a> 0.5 KB</li><li><a href="#lib-payments-stripe-ts">lib\payments\stripe.ts</a> 5.0 KB</li><li><a href="#lib-utils-ts">lib\utils.ts</a> 0.2 KB</li><li><a href="#middleware-ts">middleware.ts</a> 1.4 KB</li><li><a href="#next-env-d-ts">next-env.d.ts</a> 0.3 KB</li><li><a href="#next-config-ts">next.config.ts</a> 0.2 KB</li><li><a href="#package-json">package.json</a> 1.1 KB</li><li><a href="#postcss-config-mjs">postcss.config.mjs</a> 0.1 KB</li><li><a href="#README-md">README.md</a> 3.8 KB</li><li><a href="#tsconfig-json">tsconfig.json</a> 0.7 KB</li>
+        </ul>
+    </div>
+    
+    <h2>Source Files</h2>
+  
+    <div class="file-container" id="app--dashboard--dashboard-activity-loading-tsx">
+        <div class="file-header">
+            <span>app\(dashboard)\dashboard\activity\loading.tsx</span>
+            <span class="file-size">0.5 KB</span>
+        </div>
+    <pre><code>import { Card, CardContent, CardHeader, CardTitle } from &#039;@/components/ui/card&#039;;
+
+export default function ActivityPageSkeleton() {
+  return (
+    &lt;section className=&quot;flex-1 p-4 lg:p-8&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+      &lt;h1 className=&quot;text-lg lg:text-2xl font-medium text-gray-900 mb-6&quot;&gt;
+        Activity Log
+      &lt;/h1&gt;
+      &lt;Card&gt;
+        &lt;CardHeader&gt;
+          &lt;CardTitle&gt;Recent Activity&lt;/CardTitle&gt;
+        &lt;/CardHeader&gt;
+        &lt;CardContent className=&quot;min-h-[88px]&quot; /&gt;
+      &lt;/Card&gt;
+    &lt;/section&gt;
+  );
+}
+</code></pre></div>
+    <div class="file-container" id="app--dashboard--dashboard-activity-page-tsx">
+        <div class="file-header">
+            <span>app\(dashboard)\dashboard\activity\page.tsx</span>
+            <span class="file-size">4.3 KB</span>
+        </div>
+    <pre><code><span style="color: #22863a; font-weight: bold; font-style: italic;">// NEXT.JS APP ROUTER: &quot;page.tsx&quot; files automatically become publicly accessible routes based on their folder name.</span>
+import { Card, CardContent, CardHeader, CardTitle } from &#039;@/components/ui/card&#039;;
+import {
+  Settings,
+  LogOut,
+  UserPlus,
+  Lock,
+  UserCog,
+  AlertCircle,
+  UserMinus,
+  Mail,
+  CheckCircle,
+  type LucideIcon,
+} from &#039;lucide-react&#039;;
+import { ActivityType } from &#039;@/lib/db/schema&#039;;
+import { getActivityLogs } from &#039;@/lib/db/queries&#039;;
+
+const iconMap: Record&lt;ActivityType, LucideIcon&gt; = {
+  [ActivityType.SIGN_UP]: UserPlus,
+  [ActivityType.SIGN_IN]: UserCog,
+  [ActivityType.SIGN_OUT]: LogOut,
+  [ActivityType.UPDATE_PASSWORD]: Lock,
+  [ActivityType.DELETE_ACCOUNT]: UserMinus,
+  [ActivityType.UPDATE_ACCOUNT]: Settings,
+  [ActivityType.CREATE_TEAM]: UserPlus,
+  [ActivityType.REMOVE_TEAM_MEMBER]: UserMinus,
+  [ActivityType.INVITE_TEAM_MEMBER]: Mail,
+  [ActivityType.ACCEPT_INVITATION]: CheckCircle,
+};
+
+function getRelativeTime(date: Date) {
+  const now = new Date();
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+  if (diffInSeconds &lt; 60) return &#039;just now&#039;;
+  if (diffInSeconds &lt; 3600)
+    return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+  if (diffInSeconds &lt; 86400)
+    return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+  if (diffInSeconds &lt; 604800)
+    return `${Math.floor(diffInSeconds / 86400)} days ago`;
+  return date.toLocaleDateString();
+}
+
+function formatAction(action: ActivityType): string {
+  switch (action) {
+    case ActivityType.SIGN_UP:
+      return &#039;You signed up&#039;;
+    case ActivityType.SIGN_IN:
+      return &#039;You signed in&#039;;
+    case ActivityType.SIGN_OUT:
+      return &#039;You signed out&#039;;
+    case ActivityType.UPDATE_PASSWORD:
+      return &#039;You changed your password&#039;;
+    case ActivityType.DELETE_ACCOUNT:
+      return &#039;You deleted your account&#039;;
+    case ActivityType.UPDATE_ACCOUNT:
+      return &#039;You updated your account&#039;;
+    case ActivityType.CREATE_TEAM:
+      return &#039;You created a new team&#039;;
+    case ActivityType.REMOVE_TEAM_MEMBER:
+      return &#039;You removed a team member&#039;;
+    case ActivityType.INVITE_TEAM_MEMBER:
+      return &#039;You invited a team member&#039;;
+    case ActivityType.ACCEPT_INVITATION:
+      return &#039;You accepted an invitation&#039;;
+    default:
+      return &#039;Unknown action occurred&#039;;
+  }
+}
+
+export default async function ActivityPage() {
+  const logs = await getActivityLogs();
+
+  return (
+    &lt;section className=&quot;flex-1 p-4 lg:p-8&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+      &lt;h1 className=&quot;text-lg lg:text-2xl font-medium text-gray-900 mb-6&quot;&gt;
+        Activity Log
+      &lt;/h1&gt;
+      &lt;Card&gt;
+        &lt;CardHeader&gt;
+          &lt;CardTitle&gt;Recent Activity&lt;/CardTitle&gt;
+        &lt;/CardHeader&gt;
+        &lt;CardContent&gt;
+          {logs.length &gt; 0 ? (
+            &lt;ul className=&quot;space-y-4&quot;&gt;
+              {logs.map((log) =&gt; {
+                const Icon = iconMap[log.action as ActivityType] || Settings;
+                const formattedAction = formatAction(
+                  log.action as ActivityType
+                );
+
+                return (
+                  &lt;li key={log.id} className=&quot;flex items-center space-x-4&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+                    &lt;div className=&quot;bg-orange-100 rounded-full p-2&quot;&gt;
+                      &lt;Icon className=&quot;w-5 h-5 text-orange-600&quot; /&gt;
+                    &lt;/div&gt;
+                    &lt;div className=&quot;flex-1&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+                      &lt;p className=&quot;text-sm font-medium text-gray-900&quot;&gt;
+                        {formattedAction}
+                        {log.ipAddress &amp;&amp; ` from IP ${log.ipAddress}`}
+                      &lt;/p&gt;
+                      &lt;p className=&quot;text-xs text-gray-500&quot;&gt;
+                        {getRelativeTime(new Date(log.timestamp))}
+                      &lt;/p&gt;
+                    &lt;/div&gt;
+                  &lt;/li&gt;
+                );
+              })}
+            &lt;/ul&gt;
+          ) : (
+            &lt;div className=&quot;flex flex-col items-center justify-center text-center py-12&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+              &lt;AlertCircle className=&quot;h-12 w-12 text-orange-500 mb-4&quot; /&gt;
+              &lt;h3 className=&quot;text-lg font-semibold text-gray-900 mb-2&quot;&gt;
+                No activity yet
+              &lt;/h3&gt;
+              &lt;p className=&quot;text-sm text-gray-500 max-w-sm&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+                When you perform actions like signing in or updating your
+                account, they&#039;ll appear here.
+              &lt;/p&gt;
+            &lt;/div&gt;
+          )}
+        &lt;/CardContent&gt;
+      &lt;/Card&gt;
+    &lt;/section&gt;
+  );
+}
+</code></pre></div>
+    <div class="file-container" id="app--dashboard--dashboard-general-page-tsx">
+        <div class="file-header">
+            <span>app\(dashboard)\dashboard\general\page.tsx</span>
+            <span class="file-size">3.1 KB</span>
+        </div>
+    <pre><code><span style="color: #22863a; font-weight: bold; font-style: italic;">// NEXT.JS APP ROUTER: &quot;page.tsx&quot; files automatically become publicly accessible routes based on their folder name.</span>
+&#039;use client&#039;; <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- NEXT.JS: Marks this file as a Client Component. It ships to the browser and can use React hooks (useState, useEffect, onClick).</span>
+
+import { useActionState } from &#039;react&#039;;
+import { Button } from &#039;@/components/ui/button&#039;;
+import { Input } from &#039;@/components/ui/input&#039;;
+import { Card, CardContent, CardHeader, CardTitle } from &#039;@/components/ui/card&#039;;
+import { Label } from &#039;@/components/ui/label&#039;;
+import { Loader2 } from &#039;lucide-react&#039;;
+import { updateAccount } from &#039;@/app/(login)/actions&#039;;
+import { User } from &#039;@/lib/db/schema&#039;;
+import useSWR from &#039;swr&#039;;
+import { Suspense } from &#039;react&#039;;
+
+const fetcher = (url: string) =&gt; fetch(url).then((res) =&gt; res.json());
+
+type ActionState = {
+  name?: string;
+  error?: string;
+  success?: string;
+};
+
+type AccountFormProps = {
+  state: ActionState;
+  nameValue?: string;
+  emailValue?: string;
+};
+
+function AccountForm({
+  state,
+  nameValue = &#039;&#039;,
+  emailValue = &#039;&#039;
+}: AccountFormProps) {
+  return (
+    &lt;&gt;
+      &lt;div&gt;
+        &lt;Label htmlFor=&quot;name&quot; className=&quot;mb-2&quot;&gt;
+          Name
+        &lt;/Label&gt;
+        &lt;Input
+          id=&quot;name&quot;
+          name=&quot;name&quot;
+          placeholder=&quot;Enter your name&quot;
+          defaultValue={state.name || nameValue}
+          required
+        /&gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+        &lt;Label htmlFor=&quot;email&quot; className=&quot;mb-2&quot;&gt;
+          Email
+        &lt;/Label&gt;
+        &lt;Input
+          id=&quot;email&quot;
+          name=&quot;email&quot;
+          type=&quot;email&quot;
+          placeholder=&quot;Enter your email&quot;
+          defaultValue={emailValue}
+          required
+        /&gt;
+      &lt;/div&gt;
+    &lt;/&gt;
+  );
+}
+
+function AccountFormWithData({ state }: { state: ActionState }) {
+  const { data: user } = useSWR&lt;User&gt;(&#039;/api/user&#039;, fetcher);
+  return (
+    &lt;AccountForm
+      state={state}
+      nameValue={user?.name ?? &#039;&#039;}
+      emailValue={user?.email ?? &#039;&#039;}
+    /&gt;
+  );
+}
+
+export default function GeneralPage() {
+  const [state, formAction, isPending] = useActionState&lt;ActionState, FormData&gt;(
+    updateAccount,
+    {}
+  );
+
+  return (
+    &lt;section className=&quot;flex-1 p-4 lg:p-8&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+      &lt;h1 className=&quot;text-lg lg:text-2xl font-medium text-gray-900 mb-6&quot;&gt;
+        General Settings
+      &lt;/h1&gt;
+
+      &lt;Card&gt;
+        &lt;CardHeader&gt;
+          &lt;CardTitle&gt;Account Information&lt;/CardTitle&gt;
+        &lt;/CardHeader&gt;
+        &lt;CardContent&gt;
+          &lt;form className=&quot;space-y-4&quot; action={formAction}&gt;
+            &lt;Suspense fallback={&lt;AccountForm state={state} /&gt;}&gt;
+              &lt;AccountFormWithData state={state} /&gt;
+            &lt;/Suspense&gt;
+            {state.error &amp;&amp; (
+              &lt;p className=&quot;text-red-500 text-sm&quot;&gt;{state.error}&lt;/p&gt;
+            )}
+            {state.success &amp;&amp; (
+              &lt;p className=&quot;text-green-500 text-sm&quot;&gt;{state.success}&lt;/p&gt;
+            )}
+            &lt;Button
+              type=&quot;submit&quot;
+              className=&quot;bg-orange-500 hover:bg-orange-600 text-white&quot;
+              disabled={isPending}
+            &gt;
+              {isPending ? (
+                &lt;&gt;
+                  &lt;Loader2 className=&quot;mr-2 h-4 w-4 animate-spin&quot; /&gt;
+                  Saving...
+                &lt;/&gt;
+              ) : (
+                &#039;Save Changes&#039;
+              )}
+            &lt;/Button&gt;
+          &lt;/form&gt;
+        &lt;/CardContent&gt;
+      &lt;/Card&gt;
+    &lt;/section&gt;
+  );
+}
+</code></pre></div>
+    <div class="file-container" id="app--dashboard--dashboard-layout-tsx">
+        <div class="file-header">
+            <span>app\(dashboard)\dashboard\layout.tsx</span>
+            <span class="file-size">2.6 KB</span>
+        </div>
+    <pre><code><span style="color: #22863a; font-weight: bold; font-style: italic;">// NEXT.JS APP ROUTER: &quot;layout.tsx&quot; wraps around child pages to provide a persistent UI shell (like a sidebar or navbar).</span>
+&#039;use client&#039;; <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- NEXT.JS: Marks this file as a Client Component. It ships to the browser and can use React hooks (useState, useEffect, onClick).</span>
+
+import { useState } from &#039;react&#039;;
+import Link from &#039;next/link&#039;;
+import { usePathname } from &#039;next/navigation&#039;;
+import { Button } from &#039;@/components/ui/button&#039;;
+import { Users, Settings, Shield, Activity, Menu } from &#039;lucide-react&#039;;
+
+export default function DashboardLayout({
+  children
+}: {
+  children: React.ReactNode;
+}) {
+  const pathname = usePathname();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const navItems = [
+    { href: &#039;/dashboard&#039;, icon: Users, label: &#039;Team&#039; },
+    { href: &#039;/dashboard/general&#039;, icon: Settings, label: &#039;General&#039; },
+    { href: &#039;/dashboard/activity&#039;, icon: Activity, label: &#039;Activity&#039; },
+    { href: &#039;/dashboard/security&#039;, icon: Shield, label: &#039;Security&#039; }
+  ];
+
+  return (
+    &lt;div className=&quot;flex flex-col min-h-[calc(100dvh-68px)] max-w-7xl mx-auto w-full&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+      {/* Mobile header */}
+      &lt;div className=&quot;lg:hidden flex items-center justify-between bg-white border-b border-gray-200 p-4&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+        &lt;div className=&quot;flex items-center&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+          &lt;span className=&quot;font-medium&quot;&gt;Settings&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;Button
+          className=&quot;-mr-3&quot;
+          variant=&quot;ghost&quot;
+          onClick={() =&gt; setIsSidebarOpen(!isSidebarOpen)}
+        &gt;
+          &lt;Menu className=&quot;h-6 w-6&quot; /&gt;
+          &lt;span className=&quot;sr-only&quot;&gt;Toggle sidebar&lt;/span&gt;
+        &lt;/Button&gt;
+      &lt;/div&gt;
+
+      &lt;div className=&quot;flex flex-1 overflow-hidden h-full&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+        {/* Sidebar */}
+        &lt;aside
+          className={`w-64 bg-white lg:bg-gray-50 border-r border-gray-200 lg:block ${
+            isSidebarOpen ? &#039;block&#039; : &#039;hidden&#039;
+          } lg:relative absolute inset-y-0 left-0 z-40 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+            isSidebarOpen ? &#039;translate-x-0&#039; : &#039;-translate-x-full&#039;
+          }`}
+        &gt;
+          &lt;nav className=&quot;h-full overflow-y-auto p-4&quot;&gt;
+            {navItems.map((item) =&gt; (
+              &lt;Link key={item.href} href={item.href} passHref&gt;
+                &lt;Button
+                  variant={pathname === item.href ? &#039;secondary&#039; : &#039;ghost&#039;}
+                  className={`shadow-none my-1 w-full justify-start ${
+                    pathname === item.href ? &#039;bg-gray-100&#039; : &#039;&#039;
+                  }`}
+                  onClick={() =&gt; setIsSidebarOpen(false)}
+                &gt;
+                  &lt;item.icon className=&quot;h-4 w-4&quot; /&gt;
+                  {item.label}
+                &lt;/Button&gt;
+              &lt;/Link&gt;
+            ))}
+          &lt;/nav&gt;
+        &lt;/aside&gt;
+
+        {/* Main content */}
+        &lt;main className=&quot;flex-1 overflow-y-auto p-0 lg:p-4&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;{children}&lt;/main&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre></div>
+    <div class="file-container" id="app--dashboard--dashboard-page-tsx">
+        <div class="file-header">
+            <span>app\(dashboard)\dashboard\page.tsx</span>
+            <span class="file-size">8.8 KB</span>
+        </div>
+    <pre><code><span style="color: #22863a; font-weight: bold; font-style: italic;">// NEXT.JS APP ROUTER: &quot;page.tsx&quot; files automatically become publicly accessible routes based on their folder name.</span>
+&#039;use client&#039;; <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- NEXT.JS: Marks this file as a Client Component. It ships to the browser and can use React hooks (useState, useEffect, onClick).</span>
+
+import { Button } from &#039;@/components/ui/button&#039;;
+import { Avatar, AvatarFallback, AvatarImage } from &#039;@/components/ui/avatar&#039;;
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardFooter
+} from &#039;@/components/ui/card&#039;;
+import { customerPortalAction } from &#039;@/lib/payments/actions&#039;;
+import { useActionState } from &#039;react&#039;;
+import { TeamDataWithMembers, User } from &#039;@/lib/db/schema&#039;;
+import { removeTeamMember, inviteTeamMember } from &#039;@/app/(login)/actions&#039;;
+import useSWR from &#039;swr&#039;;
+import { Suspense } from &#039;react&#039;;
+import { Input } from &#039;@/components/ui/input&#039;;
+import { RadioGroup, RadioGroupItem } from &#039;@/components/ui/radio-group&#039;;
+import { Label } from &#039;@/components/ui/label&#039;;
+import { Loader2, PlusCircle } from &#039;lucide-react&#039;;
+
+type ActionState = {
+  error?: string;
+  success?: string;
+};
+
+const fetcher = (url: string) =&gt; fetch(url).then((res) =&gt; res.json());
+
+function SubscriptionSkeleton() {
+  return (
+    &lt;Card className=&quot;mb-8 h-[140px]&quot;&gt;
+      &lt;CardHeader&gt;
+        &lt;CardTitle&gt;Team Subscription&lt;/CardTitle&gt;
+      &lt;/CardHeader&gt;
+    &lt;/Card&gt;
+  );
+}
+
+function ManageSubscription() {
+  const { data: teamData } = useSWR&lt;TeamDataWithMembers&gt;(&#039;/api/team&#039;, fetcher);
+
+  return (
+    &lt;Card className=&quot;mb-8&quot;&gt;
+      &lt;CardHeader&gt;
+        &lt;CardTitle&gt;Team Subscription&lt;/CardTitle&gt;
+      &lt;/CardHeader&gt;
+      &lt;CardContent&gt;
+        &lt;div className=&quot;space-y-4&quot;&gt;
+          &lt;div className=&quot;flex flex-col sm:flex-row justify-between items-start sm:items-center&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+            &lt;div className=&quot;mb-4 sm:mb-0&quot;&gt;
+              &lt;p className=&quot;font-medium&quot;&gt;
+                Current Plan: {teamData?.planName || &#039;Free&#039;}
+              &lt;/p&gt;
+              &lt;p className=&quot;text-sm text-muted-foreground&quot;&gt;
+                {teamData?.subscriptionStatus === &#039;active&#039;
+                  ? &#039;Billed monthly&#039;
+                  : teamData?.subscriptionStatus === &#039;trialing&#039;
+                  ? &#039;Trial period&#039;
+                  : &#039;No active subscription&#039;}
+              &lt;/p&gt;
+            &lt;/div&gt;
+            &lt;form action={customerPortalAction}&gt;
+              &lt;Button type=&quot;submit&quot; variant=&quot;outline&quot;&gt;
+                Manage Subscription
+              &lt;/Button&gt;
+            &lt;/form&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/CardContent&gt;
+    &lt;/Card&gt;
+  );
+}
+
+function TeamMembersSkeleton() {
+  return (
+    &lt;Card className=&quot;mb-8 h-[140px]&quot;&gt;
+      &lt;CardHeader&gt;
+        &lt;CardTitle&gt;Team Members&lt;/CardTitle&gt;
+      &lt;/CardHeader&gt;
+      &lt;CardContent&gt;
+        &lt;div className=&quot;animate-pulse space-y-4 mt-1&quot;&gt;
+          &lt;div className=&quot;flex items-center space-x-4&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+            &lt;div className=&quot;size-8 rounded-full bg-gray-200&quot;&gt;&lt;/div&gt;
+            &lt;div className=&quot;space-y-2&quot;&gt;
+              &lt;div className=&quot;h-4 w-32 bg-gray-200 rounded&quot;&gt;&lt;/div&gt;
+              &lt;div className=&quot;h-3 w-14 bg-gray-200 rounded&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/CardContent&gt;
+    &lt;/Card&gt;
+  );
+}
+
+function TeamMembers() {
+  const { data: teamData } = useSWR&lt;TeamDataWithMembers&gt;(&#039;/api/team&#039;, fetcher);
+  const [removeState, removeAction, isRemovePending] = useActionState&lt;
+    ActionState,
+    FormData
+  &gt;(removeTeamMember, {});
+
+  const getUserDisplayName = (user: Pick&lt;User, &#039;id&#039; | &#039;name&#039; | &#039;email&#039;&gt;) =&gt; {
+    return user.name || user.email || &#039;Unknown User&#039;;
+  };
+
+  if (!teamData?.teamMembers?.length) {
+    return (
+      &lt;Card className=&quot;mb-8&quot;&gt;
+        &lt;CardHeader&gt;
+          &lt;CardTitle&gt;Team Members&lt;/CardTitle&gt;
+        &lt;/CardHeader&gt;
+        &lt;CardContent&gt;
+          &lt;p className=&quot;text-muted-foreground&quot;&gt;No team members yet.&lt;/p&gt;
+        &lt;/CardContent&gt;
+      &lt;/Card&gt;
+    );
+  }
+
+  return (
+    &lt;Card className=&quot;mb-8&quot;&gt;
+      &lt;CardHeader&gt;
+        &lt;CardTitle&gt;Team Members&lt;/CardTitle&gt;
+      &lt;/CardHeader&gt;
+      &lt;CardContent&gt;
+        &lt;ul className=&quot;space-y-4&quot;&gt;
+          {teamData.teamMembers.map((member, index) =&gt; (
+            &lt;li key={member.id} className=&quot;flex items-center justify-between&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+              &lt;div className=&quot;flex items-center space-x-4&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+                &lt;Avatar&gt;
+                  {/* 
+                    This app doesn&#039;t save profile images, but here
+                    is how you&#039;d show them:
+
+                    &lt;AvatarImage
+                      src={member.user.image || &#039;&#039;}
+                      alt={getUserDisplayName(member.user)}
+                    /&gt;
+                  */}
+                  &lt;AvatarFallback&gt;
+                    {getUserDisplayName(member.user)
+                      .split(&#039; &#039;)
+                      .map((n) =&gt; n[0])
+                      .join(&#039;&#039;)}
+                  &lt;/AvatarFallback&gt;
+                &lt;/Avatar&gt;
+                &lt;div&gt;
+                  &lt;p className=&quot;font-medium&quot;&gt;
+                    {getUserDisplayName(member.user)}
+                  &lt;/p&gt;
+                  &lt;p className=&quot;text-sm text-muted-foreground capitalize&quot;&gt;
+                    {member.role}
+                  &lt;/p&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+              {index &gt; 1 ? (
+                &lt;form action={removeAction}&gt;
+                  &lt;input type=&quot;hidden&quot; name=&quot;memberId&quot; value={member.id} /&gt;
+                  &lt;Button
+                    type=&quot;submit&quot;
+                    variant=&quot;outline&quot;
+                    size=&quot;sm&quot;
+                    disabled={isRemovePending}
+                  &gt;
+                    {isRemovePending ? &#039;Removing...&#039; : &#039;Remove&#039;}
+                  &lt;/Button&gt;
+                &lt;/form&gt;
+              ) : null}
+            &lt;/li&gt;
+          ))}
+        &lt;/ul&gt;
+        {removeState?.error &amp;&amp; (
+          &lt;p className=&quot;text-red-500 mt-4&quot;&gt;{removeState.error}&lt;/p&gt;
+        )}
+      &lt;/CardContent&gt;
+    &lt;/Card&gt;
+  );
+}
+
+function InviteTeamMemberSkeleton() {
+  return (
+    &lt;Card className=&quot;h-[260px]&quot;&gt;
+      &lt;CardHeader&gt;
+        &lt;CardTitle&gt;Invite Team Member&lt;/CardTitle&gt;
+      &lt;/CardHeader&gt;
+    &lt;/Card&gt;
+  );
+}
+
+function InviteTeamMember() {
+  const { data: user } = useSWR&lt;User&gt;(&#039;/api/user&#039;, fetcher);
+  const isOwner = user?.role === &#039;owner&#039;;
+  const [inviteState, inviteAction, isInvitePending] = useActionState&lt;
+    ActionState,
+    FormData
+  &gt;(inviteTeamMember, {});
+
+  return (
+    &lt;Card&gt;
+      &lt;CardHeader&gt;
+        &lt;CardTitle&gt;Invite Team Member&lt;/CardTitle&gt;
+      &lt;/CardHeader&gt;
+      &lt;CardContent&gt;
+        &lt;form action={inviteAction} className=&quot;space-y-4&quot;&gt;
+          &lt;div&gt;
+            &lt;Label htmlFor=&quot;email&quot; className=&quot;mb-2&quot;&gt;
+              Email
+            &lt;/Label&gt;
+            &lt;Input
+              id=&quot;email&quot;
+              name=&quot;email&quot;
+              type=&quot;email&quot;
+              placeholder=&quot;Enter email&quot;
+              required
+              disabled={!isOwner}
+            /&gt;
+          &lt;/div&gt;
+          &lt;div&gt;
+            &lt;Label&gt;Role&lt;/Label&gt;
+            &lt;RadioGroup
+              defaultValue=&quot;member&quot;
+              name=&quot;role&quot;
+              className=&quot;flex space-x-4&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>
+              disabled={!isOwner}
+            &gt;
+              &lt;div className=&quot;flex items-center space-x-2 mt-2&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+                &lt;RadioGroupItem value=&quot;member&quot; id=&quot;member&quot; /&gt;
+                &lt;Label htmlFor=&quot;member&quot;&gt;Member&lt;/Label&gt;
+              &lt;/div&gt;
+              &lt;div className=&quot;flex items-center space-x-2 mt-2&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+                &lt;RadioGroupItem value=&quot;owner&quot; id=&quot;owner&quot; /&gt;
+                &lt;Label htmlFor=&quot;owner&quot;&gt;Owner&lt;/Label&gt;
+              &lt;/div&gt;
+            &lt;/RadioGroup&gt;
+          &lt;/div&gt;
+          {inviteState?.error &amp;&amp; (
+            &lt;p className=&quot;text-red-500&quot;&gt;{inviteState.error}&lt;/p&gt;
+          )}
+          {inviteState?.success &amp;&amp; (
+            &lt;p className=&quot;text-green-500&quot;&gt;{inviteState.success}&lt;/p&gt;
+          )}
+          &lt;Button
+            type=&quot;submit&quot;
+            className=&quot;bg-orange-500 hover:bg-orange-600 text-white&quot;
+            disabled={isInvitePending || !isOwner}
+          &gt;
+            {isInvitePending ? (
+              &lt;&gt;
+                &lt;Loader2 className=&quot;mr-2 h-4 w-4 animate-spin&quot; /&gt;
+                Inviting...
+              &lt;/&gt;
+            ) : (
+              &lt;&gt;
+                &lt;PlusCircle className=&quot;mr-2 h-4 w-4&quot; /&gt;
+                Invite Member
+              &lt;/&gt;
+            )}
+          &lt;/Button&gt;
+        &lt;/form&gt;
+      &lt;/CardContent&gt;
+      {!isOwner &amp;&amp; (
+        &lt;CardFooter&gt;
+          &lt;p className=&quot;text-sm text-muted-foreground&quot;&gt;
+            You must be a team owner to invite new members.
+          &lt;/p&gt;
+        &lt;/CardFooter&gt;
+      )}
+    &lt;/Card&gt;
+  );
+}
+
+export default function SettingsPage() {
+  return (
+    &lt;section className=&quot;flex-1 p-4 lg:p-8&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+      &lt;h1 className=&quot;text-lg lg:text-2xl font-medium mb-6&quot;&gt;Team Settings&lt;/h1&gt;
+      &lt;Suspense fallback={&lt;SubscriptionSkeleton /&gt;}&gt;
+        &lt;ManageSubscription /&gt;
+      &lt;/Suspense&gt;
+      &lt;Suspense fallback={&lt;TeamMembersSkeleton /&gt;}&gt;
+        &lt;TeamMembers /&gt;
+      &lt;/Suspense&gt;
+      &lt;Suspense fallback={&lt;InviteTeamMemberSkeleton /&gt;}&gt;
+        &lt;InviteTeamMember /&gt;
+      &lt;/Suspense&gt;
+    &lt;/section&gt;
+  );
+}
+</code></pre></div>
+    <div class="file-container" id="app--dashboard--dashboard-security-page-tsx">
+        <div class="file-header">
+            <span>app\(dashboard)\dashboard\security\page.tsx</span>
+            <span class="file-size">5.2 KB</span>
+        </div>
+    <pre><code><span style="color: #22863a; font-weight: bold; font-style: italic;">// NEXT.JS APP ROUTER: &quot;page.tsx&quot; files automatically become publicly accessible routes based on their folder name.</span>
+&#039;use client&#039;; <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- NEXT.JS: Marks this file as a Client Component. It ships to the browser and can use React hooks (useState, useEffect, onClick).</span>
+
+import { Button } from &#039;@/components/ui/button&#039;;
+import { Input } from &#039;@/components/ui/input&#039;;
+import { Card, CardContent, CardHeader, CardTitle } from &#039;@/components/ui/card&#039;;
+import { Label } from &#039;@/components/ui/label&#039;;
+import { Lock, Trash2, Loader2 } from &#039;lucide-react&#039;;
+import { useActionState } from &#039;react&#039;;
+import { updatePassword, deleteAccount } from &#039;@/app/(login)/actions&#039;;
+
+type PasswordState = {
+  currentPassword?: string;
+  newPassword?: string;
+  confirmPassword?: string;
+  error?: string;
+  success?: string;
+};
+
+type DeleteState = {
+  password?: string;
+  error?: string;
+  success?: string;
+};
+
+export default function SecurityPage() {
+  const [passwordState, passwordAction, isPasswordPending] = useActionState&lt;
+    PasswordState,
+    FormData
+  &gt;(updatePassword, {});
+
+  const [deleteState, deleteAction, isDeletePending] = useActionState&lt;
+    DeleteState,
+    FormData
+  &gt;(deleteAccount, {});
+
+  return (
+    &lt;section className=&quot;flex-1 p-4 lg:p-8&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+      &lt;h1 className=&quot;text-lg lg:text-2xl font-medium bold text-gray-900 mb-6&quot;&gt;
+        Security Settings
+      &lt;/h1&gt;
+      &lt;Card className=&quot;mb-8&quot;&gt;
+        &lt;CardHeader&gt;
+          &lt;CardTitle&gt;Password&lt;/CardTitle&gt;
+        &lt;/CardHeader&gt;
+        &lt;CardContent&gt;
+          &lt;form className=&quot;space-y-4&quot; action={passwordAction}&gt;
+            &lt;div&gt;
+              &lt;Label htmlFor=&quot;current-password&quot; className=&quot;mb-2&quot;&gt;
+                Current Password
+              &lt;/Label&gt;
+              &lt;Input
+                id=&quot;current-password&quot;
+                name=&quot;currentPassword&quot;
+                type=&quot;password&quot;
+                autoComplete=&quot;current-password&quot;
+                required
+                minLength={8}
+                maxLength={100}
+                defaultValue={passwordState.currentPassword}
+              /&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+              &lt;Label htmlFor=&quot;new-password&quot; className=&quot;mb-2&quot;&gt;
+                New Password
+              &lt;/Label&gt;
+              &lt;Input
+                id=&quot;new-password&quot;
+                name=&quot;newPassword&quot;
+                type=&quot;password&quot;
+                autoComplete=&quot;new-password&quot;
+                required
+                minLength={8}
+                maxLength={100}
+                defaultValue={passwordState.newPassword}
+              /&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+              &lt;Label htmlFor=&quot;confirm-password&quot; className=&quot;mb-2&quot;&gt;
+                Confirm New Password
+              &lt;/Label&gt;
+              &lt;Input
+                id=&quot;confirm-password&quot;
+                name=&quot;confirmPassword&quot;
+                type=&quot;password&quot;
+                required
+                minLength={8}
+                maxLength={100}
+                defaultValue={passwordState.confirmPassword}
+              /&gt;
+            &lt;/div&gt;
+            {passwordState.error &amp;&amp; (
+              &lt;p className=&quot;text-red-500 text-sm&quot;&gt;{passwordState.error}&lt;/p&gt;
+            )}
+            {passwordState.success &amp;&amp; (
+              &lt;p className=&quot;text-green-500 text-sm&quot;&gt;{passwordState.success}&lt;/p&gt;
+            )}
+            &lt;Button
+              type=&quot;submit&quot;
+              className=&quot;bg-orange-500 hover:bg-orange-600 text-white&quot;
+              disabled={isPasswordPending}
+            &gt;
+              {isPasswordPending ? (
+                &lt;&gt;
+                  &lt;Loader2 className=&quot;mr-2 h-4 w-4 animate-spin&quot; /&gt;
+                  Updating...
+                &lt;/&gt;
+              ) : (
+                &lt;&gt;
+                  &lt;Lock className=&quot;mr-2 h-4 w-4&quot; /&gt;
+                  Update Password
+                &lt;/&gt;
+              )}
+            &lt;/Button&gt;
+          &lt;/form&gt;
+        &lt;/CardContent&gt;
+      &lt;/Card&gt;
+
+      &lt;Card&gt;
+        &lt;CardHeader&gt;
+          &lt;CardTitle&gt;Delete Account&lt;/CardTitle&gt;
+        &lt;/CardHeader&gt;
+        &lt;CardContent&gt;
+          &lt;p className=&quot;text-sm text-gray-500 mb-4&quot;&gt;
+            Account deletion is non-reversable. Please proceed with caution.
+          &lt;/p&gt;
+          &lt;form action={deleteAction} className=&quot;space-y-4&quot;&gt;
+            &lt;div&gt;
+              &lt;Label htmlFor=&quot;delete-password&quot; className=&quot;mb-2&quot;&gt;
+                Confirm Password
+              &lt;/Label&gt;
+              &lt;Input
+                id=&quot;delete-password&quot;
+                name=&quot;password&quot;
+                type=&quot;password&quot;
+                required
+                minLength={8}
+                maxLength={100}
+                defaultValue={deleteState.password}
+              /&gt;
+            &lt;/div&gt;
+            {deleteState.error &amp;&amp; (
+              &lt;p className=&quot;text-red-500 text-sm&quot;&gt;{deleteState.error}&lt;/p&gt;
+            )}
+            &lt;Button
+              type=&quot;submit&quot;
+              variant=&quot;destructive&quot;
+              className=&quot;bg-red-600 hover:bg-red-700&quot;
+              disabled={isDeletePending}
+            &gt;
+              {isDeletePending ? (
+                &lt;&gt;
+                  &lt;Loader2 className=&quot;mr-2 h-4 w-4 animate-spin&quot; /&gt;
+                  Deleting...
+                &lt;/&gt;
+              ) : (
+                &lt;&gt;
+                  &lt;Trash2 className=&quot;mr-2 h-4 w-4&quot; /&gt;
+                  Delete Account
+                &lt;/&gt;
+              )}
+            &lt;/Button&gt;
+          &lt;/form&gt;
+        &lt;/CardContent&gt;
+      &lt;/Card&gt;
+    &lt;/section&gt;
+  );
+}
+</code></pre></div>
+    <div class="file-container" id="app--dashboard--layout-tsx">
+        <div class="file-header">
+            <span>app\(dashboard)\layout.tsx</span>
+            <span class="file-size">3.2 KB</span>
+        </div>
+    <pre><code><span style="color: #22863a; font-weight: bold; font-style: italic;">// NEXT.JS APP ROUTER: &quot;layout.tsx&quot; wraps around child pages to provide a persistent UI shell (like a sidebar or navbar).</span>
+&#039;use client&#039;; <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- NEXT.JS: Marks this file as a Client Component. It ships to the browser and can use React hooks (useState, useEffect, onClick).</span>
+
+import Link from &#039;next/link&#039;;
+import { use, useState, Suspense } from &#039;react&#039;;
+import { Button } from &#039;@/components/ui/button&#039;;
+import { CircleIcon, Home, LogOut } from &#039;lucide-react&#039;;
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from &#039;@/components/ui/dropdown-menu&#039;;
+import { Avatar, AvatarFallback, AvatarImage } from &#039;@/components/ui/avatar&#039;;
+import { signOut } from &#039;@/app/(login)/actions&#039;;
+import { useRouter } from &#039;next/navigation&#039;;
+import { User } from &#039;@/lib/db/schema&#039;;
+import useSWR, { mutate } from &#039;swr&#039;;
+
+const fetcher = (url: string) =&gt; fetch(url).then((res) =&gt; res.json());
+
+function UserMenu() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: user } = useSWR&lt;User&gt;(&#039;/api/user&#039;, fetcher);
+  const router = useRouter();
+
+  async function handleSignOut() {
+    await signOut();
+    mutate(&#039;/api/user&#039;);
+    router.push(&#039;/&#039;);
+  }
+
+  if (!user) {
+    return (
+      &lt;&gt;
+        &lt;Link
+          href=&quot;/pricing&quot;
+          className=&quot;text-sm font-medium text-gray-700 hover:text-gray-900&quot;
+        &gt;
+          Pricing
+        &lt;/Link&gt;
+        &lt;Button asChild className=&quot;rounded-full&quot;&gt;
+          &lt;Link href=&quot;/sign-up&quot;&gt;Sign Up&lt;/Link&gt;
+        &lt;/Button&gt;
+      &lt;/&gt;
+    );
+  }
+
+  return (
+    &lt;DropdownMenu open={isMenuOpen} onOpenChange={setIsMenuOpen}&gt;
+      &lt;DropdownMenuTrigger&gt;
+        &lt;Avatar className=&quot;cursor-pointer size-9&quot;&gt;
+          &lt;AvatarImage alt={user.name || &#039;&#039;} /&gt;
+          &lt;AvatarFallback&gt;
+            {user.email
+              .split(&#039; &#039;)
+              .map((n) =&gt; n[0])
+              .join(&#039;&#039;)}
+          &lt;/AvatarFallback&gt;
+        &lt;/Avatar&gt;
+      &lt;/DropdownMenuTrigger&gt;
+      &lt;DropdownMenuContent align=&quot;end&quot; className=&quot;flex flex-col gap-1&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+        &lt;DropdownMenuItem className=&quot;cursor-pointer&quot;&gt;
+          &lt;Link href=&quot;/dashboard&quot; className=&quot;flex w-full items-center&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+            &lt;Home className=&quot;mr-2 h-4 w-4&quot; /&gt;
+            &lt;span&gt;Dashboard&lt;/span&gt;
+          &lt;/Link&gt;
+        &lt;/DropdownMenuItem&gt;
+        &lt;form action={handleSignOut} className=&quot;w-full&quot;&gt;
+          &lt;button type=&quot;submit&quot; className=&quot;flex w-full&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+            &lt;DropdownMenuItem className=&quot;w-full flex-1 cursor-pointer&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+              &lt;LogOut className=&quot;mr-2 h-4 w-4&quot; /&gt;
+              &lt;span&gt;Sign out&lt;/span&gt;
+            &lt;/DropdownMenuItem&gt;
+          &lt;/button&gt;
+        &lt;/form&gt;
+      &lt;/DropdownMenuContent&gt;
+    &lt;/DropdownMenu&gt;
+  );
+}
+
+function Header() {
+  return (
+    &lt;header className=&quot;border-b border-gray-200&quot;&gt;
+      &lt;div className=&quot;max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+        &lt;Link href=&quot;/&quot; className=&quot;flex items-center&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+          &lt;CircleIcon className=&quot;h-6 w-6 text-orange-500&quot; /&gt;
+          &lt;span className=&quot;ml-2 text-xl font-semibold text-gray-900&quot;&gt;ACME&lt;/span&gt;
+        &lt;/Link&gt;
+        &lt;div className=&quot;flex items-center space-x-4&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+          &lt;Suspense fallback={&lt;div className=&quot;h-9&quot; /&gt;}&gt;
+            &lt;UserMenu /&gt;
+          &lt;/Suspense&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/header&gt;
+  );
+}
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    &lt;section className=&quot;flex flex-col min-h-screen&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+      &lt;Header /&gt;
+      {children}
+    &lt;/section&gt;
+  );
+}
+</code></pre></div>
+    <div class="file-container" id="app--dashboard--page-tsx">
+        <div class="file-header">
+            <span>app\(dashboard)\page.tsx</span>
+            <span class="file-size">8.1 KB</span>
+        </div>
+    <pre><code><span style="color: #22863a; font-weight: bold; font-style: italic;">// NEXT.JS APP ROUTER: &quot;page.tsx&quot; files automatically become publicly accessible routes based on their folder name.</span>
+import { Button } from &#039;@/components/ui/button&#039;;
+import { ArrowRight, CreditCard, Database } from &#039;lucide-react&#039;;
+import { Terminal } from &#039;./terminal&#039;;
+
+export default function HomePage() {
+  return (
+    &lt;main&gt;
+      &lt;section className=&quot;py-20&quot;&gt;
+        &lt;div className=&quot;max-w-7xl mx-auto px-4 sm:px-6 lg:px-8&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+          &lt;div className=&quot;lg:grid lg:grid-cols-12 lg:gap-8&quot;&gt;
+            &lt;div className=&quot;sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+              &lt;h1 className=&quot;text-4xl font-bold text-gray-900 tracking-tight sm:text-5xl md:text-6xl&quot;&gt;
+                Build Your SaaS
+                &lt;span className=&quot;block text-orange-500&quot;&gt;Faster Than Ever&lt;/span&gt;
+              &lt;/h1&gt;
+              &lt;p className=&quot;mt-3 text-base text-gray-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl&quot;&gt;
+                Launch your SaaS product in record time with our powerful,
+                ready-to-use template. Packed with modern technologies and
+                essential integrations.
+              &lt;/p&gt;
+              &lt;div className=&quot;mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+                &lt;a
+                  href=&quot;https://vercel.com/templates/next.js/next-js-saas-starter&quot;
+                  target=&quot;_blank&quot;
+                &gt;
+                  &lt;Button
+                    size=&quot;lg&quot;
+                    variant=&quot;outline&quot;
+                    className=&quot;text-lg rounded-full&quot;
+                  &gt;
+                    Deploy your own
+                    &lt;ArrowRight className=&quot;ml-2 h-5 w-5&quot; /&gt;
+                  &lt;/Button&gt;
+                &lt;/a&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div className=&quot;mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+              &lt;Terminal /&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+      &lt;section className=&quot;py-16 bg-white w-full&quot;&gt;
+        &lt;div className=&quot;max-w-7xl mx-auto px-4 sm:px-6 lg:px-8&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+          &lt;div className=&quot;lg:grid lg:grid-cols-3 lg:gap-8&quot;&gt;
+            &lt;div&gt;
+              &lt;div className=&quot;flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+                &lt;svg viewBox=&quot;0 0 24 24&quot; className=&quot;h-6 w-6&quot;&gt;
+                  &lt;path
+                    fill=&quot;currentColor&quot;
+                    d=&quot;M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z&quot;
+                  /&gt;
+                &lt;/svg&gt;
+              &lt;/div&gt;
+              &lt;div className=&quot;mt-5&quot;&gt;
+                &lt;h2 className=&quot;text-lg font-medium text-gray-900&quot;&gt;
+                  Next.js and React
+                &lt;/h2&gt;
+                &lt;p className=&quot;mt-2 text-base text-gray-500&quot;&gt;
+                  Leverage the power of modern web technologies for optimal
+                  performance and developer experience.
+                &lt;/p&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div className=&quot;mt-10 lg:mt-0&quot;&gt;
+              &lt;div className=&quot;flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+                &lt;Database className=&quot;h-6 w-6&quot; /&gt;
+              &lt;/div&gt;
+              &lt;div className=&quot;mt-5&quot;&gt;
+                &lt;h2 className=&quot;text-lg font-medium text-gray-900&quot;&gt;
+                  Postgres and Drizzle ORM
+                &lt;/h2&gt;
+                &lt;p className=&quot;mt-2 text-base text-gray-500&quot;&gt;
+                  Robust database solution with an intuitive ORM for efficient
+                  data management and scalability.
+                &lt;/p&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div className=&quot;mt-10 lg:mt-0&quot;&gt;
+              &lt;div className=&quot;flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+                &lt;CreditCard className=&quot;h-6 w-6&quot; /&gt;
+              &lt;/div&gt;
+              &lt;div className=&quot;mt-5&quot;&gt;
+                &lt;h2 className=&quot;text-lg font-medium text-gray-900&quot;&gt;
+                  Stripe Integration
+                &lt;/h2&gt;
+                &lt;p className=&quot;mt-2 text-base text-gray-500&quot;&gt;
+                  Seamless payment processing and subscription management with
+                  industry-leading Stripe integration.
+                &lt;/p&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+      &lt;section className=&quot;py-16 bg-gray-50&quot;&gt;
+        &lt;div className=&quot;max-w-7xl mx-auto px-4 sm:px-6 lg:px-8&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+          &lt;div className=&quot;lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center&quot;&gt;
+            &lt;div&gt;
+              &lt;h2 className=&quot;text-3xl font-bold text-gray-900 sm:text-4xl&quot;&gt;
+                Ready to launch your SaaS?
+              &lt;/h2&gt;
+              &lt;p className=&quot;mt-3 max-w-3xl text-lg text-gray-500&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+                Our template provides everything you need to get your SaaS up
+                and running quickly. Don&#039;t waste time on boilerplate - focus on
+                what makes your product unique.
+              &lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div className=&quot;mt-8 lg:mt-0 flex justify-center lg:justify-end&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+              &lt;a href=&quot;https://github.com/nextjs/saas-starter&quot; target=&quot;_blank&quot;&gt;
+                &lt;Button
+                  size=&quot;lg&quot;
+                  variant=&quot;outline&quot;
+                  className=&quot;text-lg rounded-full&quot;
+                &gt;
+                  View the code
+                  &lt;ArrowRight className=&quot;ml-3 h-6 w-6&quot; /&gt;
+                &lt;/Button&gt;
+              &lt;/a&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+    &lt;/main&gt;
+  );
+}
+</code></pre></div>
+    <div class="file-container" id="app--dashboard--pricing-page-tsx">
+        <div class="file-header">
+            <span>app\(dashboard)\pricing\page.tsx</span>
+            <span class="file-size">2.9 KB</span>
+        </div>
+    <pre><code><span style="color: #22863a; font-weight: bold; font-style: italic;">// NEXT.JS APP ROUTER: &quot;page.tsx&quot; files automatically become publicly accessible routes based on their folder name.</span>
+import { checkoutAction } from &#039;@/lib/payments/actions&#039;;
+import { Check } from &#039;lucide-react&#039;;
+import { getStripePrices, getStripeProducts } from &#039;@/lib/payments/stripe&#039;;
+import { SubmitButton } from &#039;./submit-button&#039;;
+
+// Prices are fresh for one hour max
+export const revalidate = 3600;
+
+export default async function PricingPage() {
+  const [prices, products] = await Promise.all([
+    getStripePrices(),
+    getStripeProducts(),
+  ]);
+
+  const basePlan = products.find((product) =&gt; product.name === &#039;Base&#039;);
+  const plusPlan = products.find((product) =&gt; product.name === &#039;Plus&#039;);
+
+  const basePrice = prices.find((price) =&gt; price.productId === basePlan?.id);
+  const plusPrice = prices.find((price) =&gt; price.productId === plusPlan?.id);
+
+  return (
+    &lt;main className=&quot;max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+      &lt;div className=&quot;grid md:grid-cols-2 gap-8 max-w-xl mx-auto&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+        &lt;PricingCard
+          name={basePlan?.name || &#039;Base&#039;}
+          price={basePrice?.unitAmount || 800}
+          interval={basePrice?.interval || &#039;month&#039;}
+          trialDays={basePrice?.trialPeriodDays || 7}
+          features={[
+            &#039;Unlimited Usage&#039;,
+            &#039;Unlimited Workspace Members&#039;,
+            &#039;Email Support&#039;,
+          ]}
+          priceId={basePrice?.id}
+        /&gt;
+        &lt;PricingCard
+          name={plusPlan?.name || &#039;Plus&#039;}
+          price={plusPrice?.unitAmount || 1200}
+          interval={plusPrice?.interval || &#039;month&#039;}
+          trialDays={plusPrice?.trialPeriodDays || 7}
+          features={[
+            &#039;Everything in Base, and:&#039;,
+            &#039;Early Access to New Features&#039;,
+            &#039;24/7 Support + Slack Access&#039;,
+          ]}
+          priceId={plusPrice?.id}
+        /&gt;
+      &lt;/div&gt;
+    &lt;/main&gt;
+  );
+}
+
+function PricingCard({
+  name,
+  price,
+  interval,
+  trialDays,
+  features,
+  priceId,
+}: {
+  name: string;
+  price: number;
+  interval: string;
+  trialDays: number;
+  features: string[];
+  priceId?: string;
+}) {
+  return (
+    &lt;div className=&quot;pt-6&quot;&gt;
+      &lt;h2 className=&quot;text-2xl font-medium text-gray-900 mb-2&quot;&gt;{name}&lt;/h2&gt;
+      &lt;p className=&quot;text-sm text-gray-600 mb-4&quot;&gt;
+        with {trialDays} day free trial
+      &lt;/p&gt;
+      &lt;p className=&quot;text-4xl font-medium text-gray-900 mb-6&quot;&gt;
+        ${price / 100}{&#039; &#039;}
+        &lt;span className=&quot;text-xl font-normal text-gray-600&quot;&gt;
+          per user / {interval}
+        &lt;/span&gt;
+      &lt;/p&gt;
+      &lt;ul className=&quot;space-y-4 mb-8&quot;&gt;
+        {features.map((feature, index) =&gt; (
+          &lt;li key={index} className=&quot;flex items-start&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+            &lt;Check className=&quot;h-5 w-5 text-orange-500 mr-2 mt-0.5 flex-shrink-0&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span> /&gt;
+            &lt;span className=&quot;text-gray-700&quot;&gt;{feature}&lt;/span&gt;
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+      &lt;form action={checkoutAction}&gt;
+        &lt;input type=&quot;hidden&quot; name=&quot;priceId&quot; value={priceId} /&gt;
+        &lt;SubmitButton /&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre></div>
+    <div class="file-container" id="app--dashboard--pricing-submit-button-tsx">
+        <div class="file-header">
+            <span>app\(dashboard)\pricing\submit-button.tsx</span>
+            <span class="file-size">0.6 KB</span>
+        </div>
+    <pre><code>&#039;use client&#039;; <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- NEXT.JS: Marks this file as a Client Component. It ships to the browser and can use React hooks (useState, useEffect, onClick).</span>
+
+import { Button } from &#039;@/components/ui/button&#039;;
+import { ArrowRight, Loader2 } from &#039;lucide-react&#039;;
+import { useFormStatus } from &#039;react-dom&#039;;
+
+export function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    &lt;Button
+      type=&quot;submit&quot;
+      disabled={pending}
+      variant=&quot;outline&quot;
+      className=&quot;w-full rounded-full&quot;
+    &gt;
+      {pending ? (
+        &lt;&gt;
+          &lt;Loader2 className=&quot;animate-spin mr-2 h-4 w-4&quot; /&gt;
+          Loading...
+        &lt;/&gt;
+      ) : (
+        &lt;&gt;
+          Get Started
+          &lt;ArrowRight className=&quot;ml-2 h-4 w-4&quot; /&gt;
+        &lt;/&gt;
+      )}
+    &lt;/Button&gt;
+  );
+}
+</code></pre></div>
+    <div class="file-container" id="app--dashboard--terminal-tsx">
+        <div class="file-header">
+            <span>app\(dashboard)\terminal.tsx</span>
+            <span class="file-size">2.1 KB</span>
+        </div>
+    <pre><code>&#039;use client&#039;; <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- NEXT.JS: Marks this file as a Client Component. It ships to the browser and can use React hooks (useState, useEffect, onClick).</span>
+
+import { useState, useEffect } from &#039;react&#039;;
+import { Copy, Check } from &#039;lucide-react&#039;;
+
+export function Terminal() {
+  const [terminalStep, setTerminalStep] = useState(0);
+  const [copied, setCopied] = useState(false);
+  const terminalSteps = [
+    &#039;git clone https://github.com/nextjs/saas-starter&#039;,
+    &#039;pnpm install&#039;,
+    &#039;pnpm db:setup&#039;,
+    &#039;pnpm db:migrate&#039;,
+    &#039;pnpm db:seed&#039;,
+    &#039;pnpm dev 🎉&#039;,
+  ];
+
+  useEffect(() =&gt; {
+    const timer = setTimeout(() =&gt; {
+      setTerminalStep((prev) =&gt;
+        prev &lt; terminalSteps.length - 1 ? prev + 1 : prev
+      );
+    }, 500);
+
+    return () =&gt; clearTimeout(timer);
+  }, [terminalStep]);
+
+  const copyToClipboard = () =&gt; {
+    navigator.clipboard.writeText(terminalSteps.join(&#039;\n&#039;));
+    setCopied(true);
+    setTimeout(() =&gt; setCopied(false), 2000);
+  };
+
+  return (
+    &lt;div className=&quot;w-full rounded-lg shadow-lg overflow-hidden bg-gray-900 text-white font-mono text-sm relative&quot;&gt;
+      &lt;div className=&quot;p-4&quot;&gt;
+        &lt;div className=&quot;flex justify-between items-center mb-4&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+          &lt;div className=&quot;flex space-x-2&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+            &lt;div className=&quot;w-3 h-3 rounded-full bg-red-500&quot;&gt;&lt;/div&gt;
+            &lt;div className=&quot;w-3 h-3 rounded-full bg-yellow-500&quot;&gt;&lt;/div&gt;
+            &lt;div className=&quot;w-3 h-3 rounded-full bg-green-500&quot;&gt;&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;button
+            onClick={copyToClipboard}
+            className=&quot;text-gray-400 hover:text-white transition-colors&quot;
+            aria-label=&quot;Copy to clipboard&quot;
+          &gt;
+            {copied ? (
+              &lt;Check className=&quot;h-5 w-5&quot; /&gt;
+            ) : (
+              &lt;Copy className=&quot;h-5 w-5&quot; /&gt;
+            )}
+          &lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div className=&quot;space-y-2&quot;&gt;
+          {terminalSteps.map((step, index) =&gt; (
+            &lt;div
+              key={index}
+              className={`${index &gt; terminalStep ? &#039;opacity-0&#039; : &#039;opacity-100&#039;} transition-opacity duration-300`}
+            &gt;
+              &lt;span className=&quot;text-green-400&quot;&gt;$&lt;/span&gt; {step}
+            &lt;/div&gt;
+          ))}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre></div>
+    <div class="file-container" id="app--login--actions-ts">
+        <div class="file-header">
+            <span>app\(login)\actions.ts</span>
+            <span class="file-size">11.5 KB</span>
+        </div>
+    <pre><code><span style="color: #22863a; font-weight: bold; font-style: italic;">// DRIZZLE ORM: A lightweight, type-safe SQL ORM used here to map TypeScript objects directly to database tables.</span>
+&#039;use server&#039;;
+
+import { z } from &#039;zod&#039;;
+import { and, eq, sql } from &#039;drizzle-orm&#039;;
+import { db } from &#039;@/lib/db/drizzle&#039;;
+import {
+  User,
+  users,
+  teams,
+  teamMembers,
+  activityLogs,
+  type NewUser,
+  type NewTeam,
+  type NewTeamMember,
+  type NewActivityLog,
+  ActivityType,
+  invitations
+} from &#039;@/lib/db/schema&#039;;
+import { comparePasswords, hashPassword, setSession } from &#039;@/lib/auth/session&#039;;
+import { redirect } from &#039;next/navigation&#039;;
+import { cookies } from &#039;next/headers&#039;;
+import { createCheckoutSession } from &#039;@/lib/payments/stripe&#039;;
+import { getUser, getUserWithTeam } from &#039;@/lib/db/queries&#039;;
+import {
+  validatedAction,
+  validatedActionWithUser
+} from &#039;@/lib/auth/middleware&#039;;
+
+async function logActivity(
+  teamId: number | null | undefined,
+  userId: number,
+  type: ActivityType,
+  ipAddress?: string
+) {
+  if (teamId === null || teamId === undefined) {
+    return;
+  }
+  const newActivity: NewActivityLog = {
+    teamId,
+    userId,
+    action: type,
+    ipAddress: ipAddress || &#039;&#039;
+  };
+  await db.insert(activityLogs).values(newActivity);
+}
+
+const signInSchema = z.object({
+  email: z.string().email().min(3).max(255),
+  password: z.string().min(8).max(100)
+});
+
+export const signIn = validatedAction(signInSchema, async (data, formData) =&gt; {
+  const { email, password } = data;
+
+  const userWithTeam = await db
+    .select({
+      user: users,
+      team: teams
+    })
+    .from(users)
+    .leftJoin(teamMembers, eq(users.id, teamMembers.userId))
+    .leftJoin(teams, eq(teamMembers.teamId, teams.id))
+    .where(eq(users.email, email))
+    .limit(1);
+
+  if (userWithTeam.length === 0) {
+    return {
+      error: &#039;Invalid email or password. Please try again.&#039;,
+      email,
+      password
+    };
+  }
+
+  const { user: foundUser, team: foundTeam } = userWithTeam[0];
+
+  const isPasswordValid = await comparePasswords(
+    password,
+    foundUser.passwordHash
+  );
+
+  if (!isPasswordValid) {
+    return {
+      error: &#039;Invalid email or password. Please try again.&#039;,
+      email,
+      password
+    };
+  }
+
+  await Promise.all([
+    setSession(foundUser),
+    logActivity(foundTeam?.id, foundUser.id, ActivityType.SIGN_IN)
+  ]);
+
+  const redirectTo = formData.get(&#039;redirect&#039;) as string | null;
+  if (redirectTo === &#039;checkout&#039;) {
+    const priceId = formData.get(&#039;priceId&#039;) as string;
+    return createCheckoutSession({ team: foundTeam, priceId });
+  }
+
+  redirect(&#039;/dashboard&#039;);
+});
+
+const signUpSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+  inviteId: z.string().optional()
+});
+
+export const signUp = validatedAction(signUpSchema, async (data, formData) =&gt; {
+  const { email, password, inviteId } = data;
+
+  const existingUser = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, email))
+    .limit(1);
+
+  if (existingUser.length &gt; 0) {
+    return {
+      error: &#039;Failed to create user. Please try again.&#039;,
+      email,
+      password
+    };
+  }
+
+  const passwordHash = await hashPassword(password);
+
+  const newUser: NewUser = {
+    email,
+    passwordHash,
+    role: &#039;owner&#039; // Default role, will be overridden if there&#039;s an invitation
+  };
+
+  const [createdUser] = await db.insert(users).values(newUser).returning();
+
+  if (!createdUser) {
+    return {
+      error: &#039;Failed to create user. Please try again.&#039;,
+      email,
+      password
+    };
+  }
+
+  let teamId: number;
+  let userRole: string;
+  let createdTeam: typeof teams.$inferSelect | null = null;
+
+  if (inviteId) {
+    // Check if there&#039;s a valid invitation
+    const [invitation] = await db
+      .select()
+      .from(invitations)
+      .where(
+        and(
+          eq(invitations.id, parseInt(inviteId)),
+          eq(invitations.email, email),
+          eq(invitations.status, &#039;pending&#039;)
+        )
+      )
+      .limit(1);
+
+    if (invitation) {
+      teamId = invitation.teamId;
+      userRole = invitation.role;
+
+      await db
+        .update(invitations)
+        .set({ status: &#039;accepted&#039; })
+        .where(eq(invitations.id, invitation.id));
+
+      await logActivity(teamId, createdUser.id, ActivityType.ACCEPT_INVITATION);
+
+      [createdTeam] = await db
+        .select()
+        .from(teams)
+        .where(eq(teams.id, teamId))
+        .limit(1);
+    } else {
+      return { error: &#039;Invalid or expired invitation.&#039;, email, password };
+    }
+  } else {
+    // Create a new team if there&#039;s no invitation
+    const newTeam: NewTeam = {
+      name: `${email}&#039;s Team`
+    };
+
+    [createdTeam] = await db.insert(teams).values(newTeam).returning();
+
+    if (!createdTeam) {
+      return {
+        error: &#039;Failed to create team. Please try again.&#039;,
+        email,
+        password
+      };
+    }
+
+    teamId = createdTeam.id;
+    userRole = &#039;owner&#039;;
+
+    await logActivity(teamId, createdUser.id, ActivityType.CREATE_TEAM);
+  }
+
+  const newTeamMember: NewTeamMember = {
+    userId: createdUser.id,
+    teamId: teamId,
+    role: userRole
+  };
+
+  await Promise.all([
+    db.insert(teamMembers).values(newTeamMember),
+    logActivity(teamId, createdUser.id, ActivityType.SIGN_UP),
+    setSession(createdUser)
+  ]);
+
+  const redirectTo = formData.get(&#039;redirect&#039;) as string | null;
+  if (redirectTo === &#039;checkout&#039;) {
+    const priceId = formData.get(&#039;priceId&#039;) as string;
+    return createCheckoutSession({ team: createdTeam, priceId });
+  }
+
+  redirect(&#039;/dashboard&#039;);
+});
+
+export async function signOut() {
+  <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- REACT 19 SERVER ACTION: This async function runs securely on the server. Can be called directly from client forms or buttons.</span>
+  const user = (await getUser()) as User;
+  const userWithTeam = await getUserWithTeam(user.id);
+  await logActivity(userWithTeam?.teamId, user.id, ActivityType.SIGN_OUT);
+  (await cookies()).delete(&#039;session&#039;);
+}
+
+const updatePasswordSchema = z.object({
+  currentPassword: z.string().min(8).max(100),
+  newPassword: z.string().min(8).max(100),
+  confirmPassword: z.string().min(8).max(100)
+});
+
+export const updatePassword = validatedActionWithUser(
+  updatePasswordSchema,
+  async (data, _, user) =&gt; {
+    const { currentPassword, newPassword, confirmPassword } = data;
+
+    const isPasswordValid = await comparePasswords(
+      currentPassword,
+      user.passwordHash
+    );
+
+    if (!isPasswordValid) {
+      return {
+        currentPassword,
+        newPassword,
+        confirmPassword,
+        error: &#039;Current password is incorrect.&#039;
+      };
+    }
+
+    if (currentPassword === newPassword) {
+      return {
+        currentPassword,
+        newPassword,
+        confirmPassword,
+        error: &#039;New password must be different from the current password.&#039;
+      };
+    }
+
+    if (confirmPassword !== newPassword) {
+      return {
+        currentPassword,
+        newPassword,
+        confirmPassword,
+        error: &#039;New password and confirmation password do not match.&#039;
+      };
+    }
+
+    const newPasswordHash = await hashPassword(newPassword);
+    const userWithTeam = await getUserWithTeam(user.id);
+
+    await Promise.all([
+      db
+        .update(users)
+        .set({ passwordHash: newPasswordHash })
+        .where(eq(users.id, user.id)),
+      logActivity(userWithTeam?.teamId, user.id, ActivityType.UPDATE_PASSWORD)
+    ]);
+
+    return {
+      success: &#039;Password updated successfully.&#039;
+    };
+  }
+);
+
+const deleteAccountSchema = z.object({
+  password: z.string().min(8).max(100)
+});
+
+export const deleteAccount = validatedActionWithUser(
+  deleteAccountSchema,
+  async (data, _, user) =&gt; {
+    const { password } = data;
+
+    const isPasswordValid = await comparePasswords(password, user.passwordHash);
+    if (!isPasswordValid) {
+      return {
+        password,
+        error: &#039;Incorrect password. Account deletion failed.&#039;
+      };
+    }
+
+    const userWithTeam = await getUserWithTeam(user.id);
+
+    await logActivity(
+      userWithTeam?.teamId,
+      user.id,
+      ActivityType.DELETE_ACCOUNT
+    );
+
+    // Soft delete
+    await db
+      .update(users)
+      .set({
+        deletedAt: sql`CURRENT_TIMESTAMP`,
+        email: sql`CONCAT(email, &#039;-&#039;, id, &#039;-deleted&#039;)` // Ensure email uniqueness
+      })
+      .where(eq(users.id, user.id));
+
+    if (userWithTeam?.teamId) {
+      await db
+        .delete(teamMembers)
+        .where(
+          and(
+            eq(teamMembers.userId, user.id),
+            eq(teamMembers.teamId, userWithTeam.teamId)
+          )
+        );
+    }
+
+    (await cookies()).delete(&#039;session&#039;);
+    redirect(&#039;/sign-in&#039;);
+  }
+);
+
+const updateAccountSchema = z.object({
+  name: z.string().min(1, &#039;Name is required&#039;).max(100),
+  email: z.string().email(&#039;Invalid email address&#039;)
+});
+
+export const updateAccount = validatedActionWithUser(
+  updateAccountSchema,
+  async (data, _, user) =&gt; {
+    const { name, email } = data;
+    const userWithTeam = await getUserWithTeam(user.id);
+
+    await Promise.all([
+      db.update(users).set({ name, email }).where(eq(users.id, user.id)),
+      logActivity(userWithTeam?.teamId, user.id, ActivityType.UPDATE_ACCOUNT)
+    ]);
+
+    return { name, success: &#039;Account updated successfully.&#039; };
+  }
+);
+
+const removeTeamMemberSchema = z.object({
+  memberId: z.number()
+});
+
+export const removeTeamMember = validatedActionWithUser(
+  removeTeamMemberSchema,
+  async (data, _, user) =&gt; {
+    const { memberId } = data;
+    const userWithTeam = await getUserWithTeam(user.id);
+
+    if (!userWithTeam?.teamId) {
+      return { error: &#039;User is not part of a team&#039; };
+    }
+
+    await db
+      .delete(teamMembers)
+      .where(
+        and(
+          eq(teamMembers.id, memberId),
+          eq(teamMembers.teamId, userWithTeam.teamId)
+        )
+      );
+
+    await logActivity(
+      userWithTeam.teamId,
+      user.id,
+      ActivityType.REMOVE_TEAM_MEMBER
+    );
+
+    return { success: &#039;Team member removed successfully&#039; };
+  }
+);
+
+const inviteTeamMemberSchema = z.object({
+  email: z.string().email(&#039;Invalid email address&#039;),
+  role: z.enum([&#039;member&#039;, &#039;owner&#039;])
+});
+
+export const inviteTeamMember = validatedActionWithUser(
+  inviteTeamMemberSchema,
+  async (data, _, user) =&gt; {
+    const { email, role } = data;
+    const userWithTeam = await getUserWithTeam(user.id);
+
+    if (!userWithTeam?.teamId) {
+      return { error: &#039;User is not part of a team&#039; };
+    }
+
+    const existingMember = await db
+      .select()
+      .from(users)
+      .leftJoin(teamMembers, eq(users.id, teamMembers.userId))
+      .where(
+        and(eq(users.email, email), eq(teamMembers.teamId, userWithTeam.teamId))
+      )
+      .limit(1);
+
+    if (existingMember.length &gt; 0) {
+      return { error: &#039;User is already a member of this team&#039; };
+    }
+
+    // Check if there&#039;s an existing invitation
+    const existingInvitation = await db
+      .select()
+      .from(invitations)
+      .where(
+        and(
+          eq(invitations.email, email),
+          eq(invitations.teamId, userWithTeam.teamId),
+          eq(invitations.status, &#039;pending&#039;)
+        )
+      )
+      .limit(1);
+
+    if (existingInvitation.length &gt; 0) {
+      return { error: &#039;An invitation has already been sent to this email&#039; };
+    }
+
+    // Create a new invitation
+    await db.insert(invitations).values({
+      teamId: userWithTeam.teamId,
+      email,
+      role,
+      invitedBy: user.id,
+      status: &#039;pending&#039;
+    });
+
+    await logActivity(
+      userWithTeam.teamId,
+      user.id,
+      ActivityType.INVITE_TEAM_MEMBER
+    );
+
+    // TODO: Send invitation email and include ?inviteId={id} to sign-up URL
+    // await sendInvitationEmail(email, userWithTeam.team.name, role)
+
+    return { success: &#039;Invitation sent successfully&#039; };
+  }
+);
+</code></pre></div>
+    <div class="file-container" id="app--login--login-tsx">
+        <div class="file-header">
+            <span>app\(login)\login.tsx</span>
+            <span class="file-size">5.5 KB</span>
+        </div>
+    <pre><code>&#039;use client&#039;; <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- NEXT.JS: Marks this file as a Client Component. It ships to the browser and can use React hooks (useState, useEffect, onClick).</span>
+
+import Link from &#039;next/link&#039;;
+import { useActionState } from &#039;react&#039;;
+import { useSearchParams } from &#039;next/navigation&#039;;
+import { Button } from &#039;@/components/ui/button&#039;;
+import { Input } from &#039;@/components/ui/input&#039;;
+import { Label } from &#039;@/components/ui/label&#039;;
+import { CircleIcon, Loader2 } from &#039;lucide-react&#039;;
+import { signIn, signUp } from &#039;./actions&#039;;
+import { ActionState } from &#039;@/lib/auth/middleware&#039;;
+
+export function Login({ mode = &#039;signin&#039; }: { mode?: &#039;signin&#039; | &#039;signup&#039; }) {
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get(&#039;redirect&#039;);
+  const priceId = searchParams.get(&#039;priceId&#039;);
+  const inviteId = searchParams.get(&#039;inviteId&#039;);
+  const [state, formAction, pending] = useActionState&lt;ActionState, FormData&gt;(
+    mode === &#039;signin&#039; ? signIn : signUp,
+    { error: &#039;&#039; }
+  );
+
+  return (
+    &lt;div className=&quot;min-h-[100dvh] flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+      &lt;div className=&quot;sm:mx-auto sm:w-full sm:max-w-md&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+        &lt;div className=&quot;flex justify-center&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+          &lt;CircleIcon className=&quot;h-12 w-12 text-orange-500&quot; /&gt;
+        &lt;/div&gt;
+        &lt;h2 className=&quot;mt-6 text-center text-3xl font-extrabold text-gray-900&quot;&gt;
+          {mode === &#039;signin&#039;
+            ? &#039;Sign in to your account&#039;
+            : &#039;Create your account&#039;}
+        &lt;/h2&gt;
+      &lt;/div&gt;
+
+      &lt;div className=&quot;mt-8 sm:mx-auto sm:w-full sm:max-w-md&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+        &lt;form className=&quot;space-y-6&quot; action={formAction}&gt;
+          &lt;input type=&quot;hidden&quot; name=&quot;redirect&quot; value={redirect || &#039;&#039;} /&gt;
+          &lt;input type=&quot;hidden&quot; name=&quot;priceId&quot; value={priceId || &#039;&#039;} /&gt;
+          &lt;input type=&quot;hidden&quot; name=&quot;inviteId&quot; value={inviteId || &#039;&#039;} /&gt;
+          &lt;div&gt;
+            &lt;Label
+              htmlFor=&quot;email&quot;
+              className=&quot;block text-sm font-medium text-gray-700&quot;
+            &gt;
+              Email
+            &lt;/Label&gt;
+            &lt;div className=&quot;mt-1&quot;&gt;
+              &lt;Input
+                id=&quot;email&quot;
+                name=&quot;email&quot;
+                type=&quot;email&quot;
+                autoComplete=&quot;email&quot;
+                defaultValue={state.email}
+                required
+                maxLength={50}
+                className=&quot;appearance-none rounded-full relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm&quot;
+                placeholder=&quot;Enter your email&quot;
+              /&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div&gt;
+            &lt;Label
+              htmlFor=&quot;password&quot;
+              className=&quot;block text-sm font-medium text-gray-700&quot;
+            &gt;
+              Password
+            &lt;/Label&gt;
+            &lt;div className=&quot;mt-1&quot;&gt;
+              &lt;Input
+                id=&quot;password&quot;
+                name=&quot;password&quot;
+                type=&quot;password&quot;
+                autoComplete={
+                  mode === &#039;signin&#039; ? &#039;current-password&#039; : &#039;new-password&#039;
+                }
+                defaultValue={state.password}
+                required
+                minLength={8}
+                maxLength={100}
+                className=&quot;appearance-none rounded-full relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm&quot;
+                placeholder=&quot;Enter your password&quot;
+              /&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          {state?.error &amp;&amp; (
+            &lt;div className=&quot;text-red-500 text-sm&quot;&gt;{state.error}&lt;/div&gt;
+          )}
+
+          &lt;div&gt;
+            &lt;Button
+              type=&quot;submit&quot;
+              className=&quot;w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>
+              disabled={pending}
+            &gt;
+              {pending ? (
+                &lt;&gt;
+                  &lt;Loader2 className=&quot;animate-spin mr-2 h-4 w-4&quot; /&gt;
+                  Loading...
+                &lt;/&gt;
+              ) : mode === &#039;signin&#039; ? (
+                &#039;Sign in&#039;
+              ) : (
+                &#039;Sign up&#039;
+              )}
+            &lt;/Button&gt;
+          &lt;/div&gt;
+        &lt;/form&gt;
+
+        &lt;div className=&quot;mt-6&quot;&gt;
+          &lt;div className=&quot;relative&quot;&gt;
+            &lt;div className=&quot;absolute inset-0 flex items-center&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+              &lt;div className=&quot;w-full border-t border-gray-300&quot; /&gt;
+            &lt;/div&gt;
+            &lt;div className=&quot;relative flex justify-center text-sm&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+              &lt;span className=&quot;px-2 bg-gray-50 text-gray-500&quot;&gt;
+                {mode === &#039;signin&#039;
+                  ? &#039;New to our platform?&#039;
+                  : &#039;Already have an account?&#039;}
+              &lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+
+          &lt;div className=&quot;mt-6&quot;&gt;
+            &lt;Link
+              href={`${mode === &#039;signin&#039; ? &#039;/sign-up&#039; : &#039;/sign-in&#039;}${
+                redirect ? `?redirect=${redirect}` : &#039;&#039;
+              }${priceId ? `&amp;priceId=${priceId}` : &#039;&#039;}`}
+              className=&quot;w-full flex justify-center py-2 px-4 border border-gray-300 rounded-full shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>
+            &gt;
+              {mode === &#039;signin&#039;
+                ? &#039;Create an account&#039;
+                : &#039;Sign in to existing account&#039;}
+            &lt;/Link&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre></div>
+    <div class="file-container" id="app--login--sign-in-page-tsx">
+        <div class="file-header">
+            <span>app\(login)\sign-in\page.tsx</span>
+            <span class="file-size">0.2 KB</span>
+        </div>
+    <pre><code><span style="color: #22863a; font-weight: bold; font-style: italic;">// NEXT.JS APP ROUTER: &quot;page.tsx&quot; files automatically become publicly accessible routes based on their folder name.</span>
+import { Suspense } from &#039;react&#039;;
+import { Login } from &#039;../login&#039;;
+
+export default function SignInPage() {
+  return (
+    &lt;Suspense&gt;
+      &lt;Login mode=&quot;signin&quot; /&gt;
+    &lt;/Suspense&gt;
+  );
+}
+</code></pre></div>
+    <div class="file-container" id="app--login--sign-up-page-tsx">
+        <div class="file-header">
+            <span>app\(login)\sign-up\page.tsx</span>
+            <span class="file-size">0.2 KB</span>
+        </div>
+    <pre><code><span style="color: #22863a; font-weight: bold; font-style: italic;">// NEXT.JS APP ROUTER: &quot;page.tsx&quot; files automatically become publicly accessible routes based on their folder name.</span>
+import { Suspense } from &#039;react&#039;;
+import { Login } from &#039;../login&#039;;
+
+export default function SignUpPage() {
+  return (
+    &lt;Suspense&gt;
+      &lt;Login mode=&quot;signup&quot; /&gt;
+    &lt;/Suspense&gt;
+  );
+}
+</code></pre></div>
+    <div class="file-container" id="app-api-stripe-checkout-route-ts">
+        <div class="file-header">
+            <span>app\api\stripe\checkout\route.ts</span>
+            <span class="file-size">2.9 KB</span>
+        </div>
+    <pre><code><span style="color: #22863a; font-weight: bold; font-style: italic;">// DRIZZLE ORM: A lightweight, type-safe SQL ORM used here to map TypeScript objects directly to database tables.</span>
+<span style="color: #22863a; font-weight: bold; font-style: italic;">// NEXT.JS API ROUTE: &quot;route.ts&quot; handles HTTP methods (GET, POST, etc.) for building backend API endpoints.</span>
+import { eq } from &#039;drizzle-orm&#039;;
+import { db } from &#039;@/lib/db/drizzle&#039;;
+import { users, teams, teamMembers } from &#039;@/lib/db/schema&#039;;
+import { setSession } from &#039;@/lib/auth/session&#039;;
+import { NextRequest, NextResponse } from &#039;next/server&#039;;
+import { stripe } from &#039;@/lib/payments/stripe&#039;;
+import Stripe from &#039;stripe&#039;;
+
+export async function GET(request: NextRequest) {
+  <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- REACT 19 SERVER ACTION: This async function runs securely on the server. Can be called directly from client forms or buttons.</span>
+  const searchParams = request.nextUrl.searchParams;
+  const sessionId = searchParams.get(&#039;session_id&#039;);
+
+  if (!sessionId) {
+    return NextResponse.redirect(new URL(&#039;/pricing&#039;, request.url));
+  }
+
+  try {
+    const session = await stripe.checkout.sessions.retrieve(sessionId, {
+      expand: [&#039;customer&#039;, &#039;subscription&#039;],
+    });
+
+    if (!session.customer || typeof session.customer === &#039;string&#039;) {
+      throw new Error(&#039;Invalid customer data from Stripe.&#039;);
+    }
+
+    const customerId = session.customer.id;
+    const subscriptionId =
+      typeof session.subscription === &#039;string&#039;
+        ? session.subscription
+        : session.subscription?.id;
+
+    if (!subscriptionId) {
+      throw new Error(&#039;No subscription found for this session.&#039;);
+    }
+
+    const subscription = await stripe.subscriptions.retrieve(subscriptionId, {
+      expand: [&#039;items.data.price.product&#039;],
+    });
+
+    const plan = subscription.items.data[0]?.price;
+
+    if (!plan) {
+      throw new Error(&#039;No plan found for this subscription.&#039;);
+    }
+
+    const productId = (plan.product as Stripe.Product).id;
+
+    if (!productId) {
+      throw new Error(&#039;No product ID found for this subscription.&#039;);
+    }
+
+    const userId = session.client_reference_id;
+    if (!userId) {
+      throw new Error(&quot;No user ID found in session&#039;s client_reference_id.&quot;);
+    }
+
+    const user = await db
+      .select()
+      .from(users)
+      .where(eq(users.id, Number(userId)))
+      .limit(1);
+
+    if (user.length === 0) {
+      throw new Error(&#039;User not found in database.&#039;);
+    }
+
+    const userTeam = await db
+      .select({
+        teamId: teamMembers.teamId,
+      })
+      .from(teamMembers)
+      .where(eq(teamMembers.userId, user[0].id))
+      .limit(1);
+
+    if (userTeam.length === 0) {
+      throw new Error(&#039;User is not associated with any team.&#039;);
+    }
+
+    await db
+      .update(teams)
+      .set({
+        stripeCustomerId: customerId,
+        stripeSubscriptionId: subscriptionId,
+        stripeProductId: productId,
+        planName: (plan.product as Stripe.Product).name,
+        subscriptionStatus: subscription.status,
+        updatedAt: new Date(),
+      })
+      .where(eq(teams.id, userTeam[0].teamId));
+
+    await setSession(user[0]);
+    return NextResponse.redirect(new URL(&#039;/dashboard&#039;, request.url));
+  } catch (error) {
+    console.error(&#039;Error handling successful checkout:&#039;, error);
+    return NextResponse.redirect(new URL(&#039;/error&#039;, request.url));
+  }
+}
+</code></pre></div>
+    <div class="file-container" id="app-api-stripe-webhook-route-ts">
+        <div class="file-header">
+            <span>app\api\stripe\webhook\route.ts</span>
+            <span class="file-size">1.1 KB</span>
+        </div>
+    <pre><code><span style="color: #22863a; font-weight: bold; font-style: italic;">// NEXT.JS API ROUTE: &quot;route.ts&quot; handles HTTP methods (GET, POST, etc.) for building backend API endpoints.</span>
+import Stripe from &#039;stripe&#039;;
+import { handleSubscriptionChange, stripe } from &#039;@/lib/payments/stripe&#039;;
+import { NextRequest, NextResponse } from &#039;next/server&#039;;
+
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+
+export async function POST(request: NextRequest) {
+  <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- REACT 19 SERVER ACTION: This async function runs securely on the server. Can be called directly from client forms or buttons.</span>
+  const payload = await request.text();
+  const signature = request.headers.get(&#039;stripe-signature&#039;) as string;
+
+  let event: Stripe.Event;
+
+  try {
+    event = stripe.webhooks.constructEvent(payload, signature, webhookSecret);
+  } catch (err) {
+    console.error(&#039;Webhook signature verification failed.&#039;, err);
+    return NextResponse.json(
+      { error: &#039;Webhook signature verification failed.&#039; },
+      { status: 400 }
+    );
+  }
+
+  switch (event.type) {
+    case &#039;customer.subscription.updated&#039;:
+    case &#039;customer.subscription.deleted&#039;:
+      const subscription = event.data.object as Stripe.Subscription;
+      await handleSubscriptionChange(subscription);
+      break;
+    default:
+      console.log(`Unhandled event type ${event.type}`);
+  }
+
+  return NextResponse.json({ received: true });
+}
+</code></pre></div>
+    <div class="file-container" id="app-api-team-route-ts">
+        <div class="file-header">
+            <span>app\api\team\route.ts</span>
+            <span class="file-size">0.2 KB</span>
+        </div>
+    <pre><code><span style="color: #22863a; font-weight: bold; font-style: italic;">// NEXT.JS API ROUTE: &quot;route.ts&quot; handles HTTP methods (GET, POST, etc.) for building backend API endpoints.</span>
+import { getTeamForUser } from &#039;@/lib/db/queries&#039;;
+
+export async function GET() {
+  <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- REACT 19 SERVER ACTION: This async function runs securely on the server. Can be called directly from client forms or buttons.</span>
+  const team = await getTeamForUser();
+  return Response.json(team);
+}
+</code></pre></div>
+    <div class="file-container" id="app-api-user-route-ts">
+        <div class="file-header">
+            <span>app\api\user\route.ts</span>
+            <span class="file-size">0.1 KB</span>
+        </div>
+    <pre><code><span style="color: #22863a; font-weight: bold; font-style: italic;">// NEXT.JS API ROUTE: &quot;route.ts&quot; handles HTTP methods (GET, POST, etc.) for building backend API endpoints.</span>
+import { getUser } from &#039;@/lib/db/queries&#039;;
+
+export async function GET() {
+  <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- REACT 19 SERVER ACTION: This async function runs securely on the server. Can be called directly from client forms or buttons.</span>
+  const user = await getUser();
+  return Response.json(user);
+}
+</code></pre></div>
+    <div class="file-container" id="app-globals-css">
+        <div class="file-header">
+            <span>app\globals.css</span>
+            <span class="file-size">8.0 KB</span>
+        </div>
+    <pre><code>@import &quot;tailwindcss&quot;;
+/*
+  ---break---
+*/
+@custom-variant dark (&amp;:is(.dark *));
+
+@import &quot;tw-animate-css&quot;;
+
+@variant dark (&amp;:is(.dark *));
+
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we&#039;ve added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@layer utilities {
+  body {
+    font-family: &quot;Manrope&quot;, Arial, Helvetica, sans-serif;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/*
+  ---break---
+*/
+
+:root {
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(240 10% 3.9%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(240 10% 3.9%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(240 10% 3.9%);
+  --primary: hsl(240 5.9% 10%);
+  --primary-foreground: hsl(0 0% 98%);
+  --secondary: hsl(240 4.8% 95.9%);
+  --secondary-foreground: hsl(240 5.9% 10%);
+  --muted: hsl(240 4.8% 95.9%);
+  --muted-foreground: hsl(240 3.8% 46.1%);
+  --accent: hsl(240 4.8% 95.9%);
+  --accent-foreground: hsl(240 5.9% 10%);
+  --destructive: hsl(0 84.2% 60.2%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --border: hsl(240 5.9% 90%);
+  --input: hsl(240 5.9% 90%);
+  --ring: hsl(240 10% 3.9%);
+  --chart-1: hsl(12 76% 61%);
+  --chart-2: hsl(173 58% 39%);
+  --chart-3: hsl(197 37% 24%);
+  --chart-4: hsl(43 74% 66%);
+  --chart-5: hsl(27 87% 67%);
+  --radius: 0.6rem;
+}
+
+/*
+  ---break---
+*/
+
+.dark {
+  --background: hsl(240 10% 3.9%);
+  --foreground: hsl(0 0% 98%);
+  --card: hsl(240 10% 3.9%);
+  --card-foreground: hsl(0 0% 98%);
+  --popover: hsl(240 10% 3.9%);
+  --popover-foreground: hsl(0 0% 98%);
+  --primary: hsl(0 0% 98%);
+  --primary-foreground: hsl(240 5.9% 10%);
+  --secondary: hsl(240 3.7% 15.9%);
+  --secondary-foreground: hsl(0 0% 98%);
+  --muted: hsl(240 3.7% 15.9%);
+  --muted-foreground: hsl(240 5% 64.9%);
+  --accent: hsl(240 3.7% 15.9%);
+  --accent-foreground: hsl(0 0% 98%);
+  --destructive: hsl(0 62.8% 30.6%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --border: hsl(240 3.7% 15.9%);
+  --input: hsl(240 3.7% 15.9%);
+  --ring: hsl(240 4.9% 83.9%);
+  --chart-1: hsl(220 70% 50%);
+  --chart-2: hsl(160 60% 45%);
+  --chart-3: hsl(30 80% 55%);
+  --chart-4: hsl(280 65% 60%);
+  --chart-5: hsl(340 75% 55%);
+}
+
+/*
+  ---break---
+*/
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/*
+  ---break---
+*/
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+</code></pre></div>
+    <div class="file-container" id="app-layout-tsx">
+        <div class="file-header">
+            <span>app\layout.tsx</span>
+            <span class="file-size">1.1 KB</span>
+        </div>
+    <pre><code><span style="color: #22863a; font-weight: bold; font-style: italic;">// NEXT.JS APP ROUTER: &quot;layout.tsx&quot; wraps around child pages to provide a persistent UI shell (like a sidebar or navbar).</span>
+import &#039;./globals.css&#039;;
+import type { Metadata, Viewport } from &#039;next&#039;;
+import { Manrope } from &#039;next/font/google&#039;;
+import { getUser, getTeamForUser } from &#039;@/lib/db/queries&#039;;
+import { SWRConfig } from &#039;swr&#039;;
+
+export const metadata: Metadata = {
+  title: &#039;Next.js SaaS Starter&#039;,
+  description: &#039;Get started quickly with Next.js, Postgres, and Stripe.&#039;
+};
+
+export const viewport: Viewport = {
+  maximumScale: 1
+};
+
+const manrope = Manrope({ subsets: [&#039;latin&#039;] });
+
+export default function RootLayout({
+  children
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    &lt;html
+      lang=&quot;en&quot;
+      className={`bg-white dark:bg-gray-950 text-black dark:text-white ${manrope.className}`}
+    &gt;
+      &lt;body className=&quot;min-h-[100dvh] bg-gray-50&quot;&gt;
+        &lt;SWRConfig
+          value={{
+            fallback: {
+              // We do NOT await here
+              // Only components that read this data will suspend
+              &#039;/api/user&#039;: getUser(),
+              &#039;/api/team&#039;: getTeamForUser()
+            }
+          }}
+        &gt;
+          {children}
+        &lt;/SWRConfig&gt;
+      &lt;/body&gt;
+    &lt;/html&gt;
+  );
+}
+</code></pre></div>
+    <div class="file-container" id="app-not-found-tsx">
+        <div class="file-header">
+            <span>app\not-found.tsx</span>
+            <span class="file-size">1.0 KB</span>
+        </div>
+    <pre><code>import Link from &#039;next/link&#039;;
+import { CircleIcon } from &#039;lucide-react&#039;;
+
+export default function NotFound() {
+  return (
+    &lt;div className=&quot;flex items-center justify-center min-h-[100dvh]&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+      &lt;div className=&quot;max-w-md space-y-8 p-4 text-center&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+        &lt;div className=&quot;flex justify-center&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+          &lt;CircleIcon className=&quot;size-12 text-orange-500&quot; /&gt;
+        &lt;/div&gt;
+        &lt;h1 className=&quot;text-4xl font-bold text-gray-900 tracking-tight&quot;&gt;
+          Page Not Found
+        &lt;/h1&gt;
+        &lt;p className=&quot;text-base text-gray-500&quot;&gt;
+          The page you are looking for might have been removed, had its name
+          changed, or is temporarily unavailable.
+        &lt;/p&gt;
+        &lt;Link
+          href=&quot;/&quot;
+          className=&quot;max-w-48 mx-auto flex justify-center py-2 px-4 border border-gray-300 rounded-full shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>
+        &gt;
+          Back to Home
+        &lt;/Link&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre></div>
+    <div class="file-container" id="components-ui-avatar-tsx">
+        <div class="file-header">
+            <span>components\ui\avatar.tsx</span>
+            <span class="file-size">1.1 KB</span>
+        </div>
+    <pre><code>&quot;use client&quot;; <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- NEXT.JS: Marks this file as a Client Component. It ships to the browser and can use React hooks (useState, useEffect, onClick).</span>
+
+import * as React from &quot;react&quot;;
+import { Avatar as AvatarPrimitive } from &quot;radix-ui&quot;;;
+
+import { cn } from &quot;@/lib/utils&quot;;
+
+function Avatar({
+  className,
+  ...props
+}: React.ComponentProps&lt;typeof AvatarPrimitive.Root&gt;) {
+  return (
+    &lt;AvatarPrimitive.Root
+      data-slot=&quot;avatar&quot;
+      className={cn(
+        &quot;relative flex size-8 shrink-0 overflow-hidden rounded-full&quot;,
+        className
+      )}
+      {...props}
+    /&gt;
+  );
+}
+
+function AvatarImage({
+  className,
+  ...props
+}: React.ComponentProps&lt;typeof AvatarPrimitive.Image&gt;) {
+  return (
+    &lt;AvatarPrimitive.Image
+      data-slot=&quot;avatar-image&quot;
+      className={cn(&quot;aspect-square size-full&quot;, className)}
+      {...props}
+    /&gt;
+  );
+}
+
+function AvatarFallback({
+  className,
+  ...props
+}: React.ComponentProps&lt;typeof AvatarPrimitive.Fallback&gt;) {
+  return (
+    &lt;AvatarPrimitive.Fallback
+      data-slot=&quot;avatar-fallback&quot;
+      className={cn(
+        &quot;bg-muted flex size-full items-center justify-center rounded-full&quot;,
+        className
+      )}
+      {...props}
+    /&gt;
+  );
+}
+
+export { Avatar, AvatarImage, AvatarFallback };
+</code></pre></div>
+    <div class="file-container" id="components-ui-button-tsx">
+        <div class="file-header">
+            <span>components\ui\button.tsx</span>
+            <span class="file-size">2.2 KB</span>
+        </div>
+    <pre><code>import * as React from &quot;react&quot;;
+import { Slot as SlotPrimitive } from &quot;radix-ui&quot;;;
+import { cva, type VariantProps } from &quot;class-variance-authority&quot;;
+
+import { cn } from &quot;@/lib/utils&quot;;
+
+const buttonVariants = cva(
+  &quot;inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=&#039;size-&#039;])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive&quot;,
+  {
+    variants: {
+      variant: {
+        default:
+          &quot;bg-primary text-primary-foreground shadow-xs hover:bg-primary/90&quot;,
+        destructive:
+          &quot;bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60&quot;,
+        outline:
+          &quot;border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50&quot;,
+        secondary:
+          &quot;bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80&quot;,
+        ghost:
+          &quot;hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50&quot;,
+        link: &quot;text-primary underline-offset-4 hover:underline&quot;
+      },
+      size: {
+        default: &quot;h-9 px-4 py-2 has-[&gt;svg]:px-3&quot;,
+        sm: &quot;h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5&quot;,
+        lg: &quot;h-10 rounded-md px-6 has-[&gt;svg]:px-4&quot;,
+        icon: &quot;size-9&quot;
+      }
+    },
+    defaultVariants: {
+      variant: &quot;default&quot;,
+      size: &quot;default&quot;
+    }
+  }
+);
+
+function Button({
+  className,
+  variant,
+  size,
+  asChild = false,
+  ...props
+}: React.ComponentProps&lt;&quot;button&quot;&gt; &amp;
+  VariantProps&lt;typeof buttonVariants&gt; &amp; {
+    asChild?: boolean;
+  }) {
+  const Comp = asChild ? SlotPrimitive.Slot : &quot;button&quot;;
+
+  return (
+    &lt;Comp
+      data-slot=&quot;button&quot;
+      className={cn(buttonVariants({ variant, size, className }))}
+      {...props}
+    /&gt;
+  );
+}
+
+export { Button, buttonVariants };
+</code></pre></div>
+    <div class="file-container" id="components-ui-card-tsx">
+        <div class="file-header">
+            <span>components\ui\card.tsx</span>
+            <span class="file-size">2.0 KB</span>
+        </div>
+    <pre><code>import * as React from &quot;react&quot;;
+
+import { cn } from &quot;@/lib/utils&quot;;
+
+function Card({ className, ...props }: React.ComponentProps&lt;&quot;div&quot;&gt;) {
+  return (
+    &lt;div
+      data-slot=&quot;card&quot;
+      className={cn(
+        &quot;bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm&quot;,
+        className
+      )}
+      {...props}
+    /&gt;
+  );
+}
+
+function CardHeader({ className, ...props }: React.ComponentProps&lt;&quot;div&quot;&gt;) {
+  return (
+    &lt;div
+      data-slot=&quot;card-header&quot;
+      className={cn(
+        &quot;@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6&quot;,
+        className
+      )}
+      {...props}
+    /&gt;
+  );
+}
+
+function CardTitle({ className, ...props }: React.ComponentProps&lt;&quot;div&quot;&gt;) {
+  return (
+    &lt;div
+      data-slot=&quot;card-title&quot;
+      className={cn(&quot;leading-none font-semibold&quot;, className)}
+      {...props}
+    /&gt;
+  );
+}
+
+function CardDescription({ className, ...props }: React.ComponentProps&lt;&quot;div&quot;&gt;) {
+  return (
+    &lt;div
+      data-slot=&quot;card-description&quot;
+      className={cn(&quot;text-muted-foreground text-sm&quot;, className)}
+      {...props}
+    /&gt;
+  );
+}
+
+function CardAction({ className, ...props }: React.ComponentProps&lt;&quot;div&quot;&gt;) {
+  return (
+    &lt;div
+      data-slot=&quot;card-action&quot;
+      className={cn(
+        &quot;col-start-2 row-span-2 row-start-1 self-start justify-self-end&quot;,
+        className
+      )}
+      {...props}
+    /&gt;
+  );
+}
+
+function CardContent({ className, ...props }: React.ComponentProps&lt;&quot;div&quot;&gt;) {
+  return (
+    &lt;div
+      data-slot=&quot;card-content&quot;
+      className={cn(&quot;px-6&quot;, className)}
+      {...props}
+    /&gt;
+  );
+}
+
+function CardFooter({ className, ...props }: React.ComponentProps&lt;&quot;div&quot;&gt;) {
+  return (
+    &lt;div
+      data-slot=&quot;card-footer&quot;
+      className={cn(&quot;flex items-center px-6 [.border-t]:pt-6&quot;, className)}
+      {...props}
+    /&gt;
+  );
+}
+
+export {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardAction,
+  CardDescription,
+  CardContent
+};
+</code></pre></div>
+    <div class="file-container" id="components-ui-dropdown-menu-tsx">
+        <div class="file-header">
+            <span>components\ui\dropdown-menu.tsx</span>
+            <span class="file-size">8.4 KB</span>
+        </div>
+    <pre><code>&quot;use client&quot;; <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- NEXT.JS: Marks this file as a Client Component. It ships to the browser and can use React hooks (useState, useEffect, onClick).</span>
+
+import * as React from &quot;react&quot;;
+import { DropdownMenu as DropdownMenuPrimitive } from &quot;radix-ui&quot;;;
+import { CheckIcon, ChevronRightIcon, CircleIcon } from &quot;lucide-react&quot;;
+
+import { cn } from &quot;@/lib/utils&quot;;
+
+function DropdownMenu({
+  ...props
+}: React.ComponentProps&lt;typeof DropdownMenuPrimitive.Root&gt;) {
+  return &lt;DropdownMenuPrimitive.Root data-slot=&quot;dropdown-menu&quot; {...props} /&gt;;
+}
+
+function DropdownMenuPortal({
+  ...props
+}: React.ComponentProps&lt;typeof DropdownMenuPrimitive.Portal&gt;) {
+  return (
+    &lt;DropdownMenuPrimitive.Portal data-slot=&quot;dropdown-menu-portal&quot; {...props} /&gt;
+  );
+}
+
+function DropdownMenuTrigger({
+  ...props
+}: React.ComponentProps&lt;typeof DropdownMenuPrimitive.Trigger&gt;) {
+  return (
+    &lt;DropdownMenuPrimitive.Trigger
+      data-slot=&quot;dropdown-menu-trigger&quot;
+      {...props}
+    /&gt;
+  );
+}
+
+function DropdownMenuContent({
+  className,
+  sideOffset = 4,
+  ...props
+}: React.ComponentProps&lt;typeof DropdownMenuPrimitive.Content&gt;) {
+  return (
+    &lt;DropdownMenuPrimitive.Portal&gt;
+      &lt;DropdownMenuPrimitive.Content
+        data-slot=&quot;dropdown-menu-content&quot;
+        sideOffset={sideOffset}
+        className={cn(
+          &quot;bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 max-h-(--radix-dropdown-menu-content-available-height) min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border p-1 shadow-md&quot;,
+          className
+        )}
+        {...props}
+      /&gt;
+    &lt;/DropdownMenuPrimitive.Portal&gt;
+  );
+}
+
+function DropdownMenuGroup({
+  ...props
+}: React.ComponentProps&lt;typeof DropdownMenuPrimitive.Group&gt;) {
+  return (
+    &lt;DropdownMenuPrimitive.Group data-slot=&quot;dropdown-menu-group&quot; {...props} /&gt;
+  );
+}
+
+function DropdownMenuItem({
+  className,
+  inset,
+  variant = &quot;default&quot;,
+  ...props
+}: React.ComponentProps&lt;typeof DropdownMenuPrimitive.Item&gt; &amp; {
+  inset?: boolean;
+  variant?: &quot;default&quot; | &quot;destructive&quot;;
+}) {
+  return (
+    &lt;DropdownMenuPrimitive.Item
+      data-slot=&quot;dropdown-menu-item&quot;
+      data-inset={inset}
+      data-variant={variant}
+      className={cn(
+        &quot;focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&amp;_svg:not([class*=&#039;text-&#039;])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#039;size-&#039;])]:size-4&quot;,
+        className
+      )}
+      {...props}
+    /&gt;
+  );
+}
+
+function DropdownMenuCheckboxItem({
+  className,
+  children,
+  checked,
+  ...props
+}: React.ComponentProps&lt;typeof DropdownMenuPrimitive.CheckboxItem&gt;) {
+  return (
+    &lt;DropdownMenuPrimitive.CheckboxItem
+      data-slot=&quot;dropdown-menu-checkbox-item&quot;
+      className={cn(
+        &quot;focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#039;size-&#039;])]:size-4&quot;,
+        className
+      )}
+      checked={checked}
+      {...props}
+    &gt;
+      &lt;span className=&quot;pointer-events-none absolute left-2 flex size-3.5 items-center justify-center&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+        &lt;DropdownMenuPrimitive.ItemIndicator&gt;
+          &lt;CheckIcon className=&quot;size-4&quot; /&gt;
+        &lt;/DropdownMenuPrimitive.ItemIndicator&gt;
+      &lt;/span&gt;
+      {children}
+    &lt;/DropdownMenuPrimitive.CheckboxItem&gt;
+  );
+}
+
+function DropdownMenuRadioGroup({
+  ...props
+}: React.ComponentProps&lt;typeof DropdownMenuPrimitive.RadioGroup&gt;) {
+  return (
+    &lt;DropdownMenuPrimitive.RadioGroup
+      data-slot=&quot;dropdown-menu-radio-group&quot;
+      {...props}
+    /&gt;
+  );
+}
+
+function DropdownMenuRadioItem({
+  className,
+  children,
+  ...props
+}: React.ComponentProps&lt;typeof DropdownMenuPrimitive.RadioItem&gt;) {
+  return (
+    &lt;DropdownMenuPrimitive.RadioItem
+      data-slot=&quot;dropdown-menu-radio-item&quot;
+      className={cn(
+        &quot;focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#039;size-&#039;])]:size-4&quot;,
+        className
+      )}
+      {...props}
+    &gt;
+      &lt;span className=&quot;pointer-events-none absolute left-2 flex size-3.5 items-center justify-center&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>&gt;
+        &lt;DropdownMenuPrimitive.ItemIndicator&gt;
+          &lt;CircleIcon className=&quot;size-2 fill-current&quot; /&gt;
+        &lt;/DropdownMenuPrimitive.ItemIndicator&gt;
+      &lt;/span&gt;
+      {children}
+    &lt;/DropdownMenuPrimitive.RadioItem&gt;
+  );
+}
+
+function DropdownMenuLabel({
+  className,
+  inset,
+  ...props
+}: React.ComponentProps&lt;typeof DropdownMenuPrimitive.Label&gt; &amp; {
+  inset?: boolean;
+}) {
+  return (
+    &lt;DropdownMenuPrimitive.Label
+      data-slot=&quot;dropdown-menu-label&quot;
+      data-inset={inset}
+      className={cn(
+        &quot;px-2 py-1.5 text-sm font-medium data-[inset]:pl-8&quot;,
+        className
+      )}
+      {...props}
+    /&gt;
+  );
+}
+
+function DropdownMenuSeparator({
+  className,
+  ...props
+}: React.ComponentProps&lt;typeof DropdownMenuPrimitive.Separator&gt;) {
+  return (
+    &lt;DropdownMenuPrimitive.Separator
+      data-slot=&quot;dropdown-menu-separator&quot;
+      className={cn(&quot;bg-border -mx-1 my-1 h-px&quot;, className)}
+      {...props}
+    /&gt;
+  );
+}
+
+function DropdownMenuShortcut({
+  className,
+  ...props
+}: React.ComponentProps&lt;&quot;span&quot;&gt;) {
+  return (
+    &lt;span
+      data-slot=&quot;dropdown-menu-shortcut&quot;
+      className={cn(
+        &quot;text-muted-foreground ml-auto text-xs tracking-widest&quot;,
+        className
+      )}
+      {...props}
+    /&gt;
+  );
+}
+
+function DropdownMenuSub({
+  ...props
+}: React.ComponentProps&lt;typeof DropdownMenuPrimitive.Sub&gt;) {
+  return &lt;DropdownMenuPrimitive.Sub data-slot=&quot;dropdown-menu-sub&quot; {...props} /&gt;;
+}
+
+function DropdownMenuSubTrigger({
+  className,
+  inset,
+  children,
+  ...props
+}: React.ComponentProps&lt;typeof DropdownMenuPrimitive.SubTrigger&gt; &amp; {
+  inset?: boolean;
+}) {
+  return (
+    &lt;DropdownMenuPrimitive.SubTrigger
+      data-slot=&quot;dropdown-menu-sub-trigger&quot;
+      data-inset={inset}
+      className={cn(
+        &quot;focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[inset]:pl-8&quot;,
+        className
+      )}
+      {...props}
+    &gt;
+      {children}
+      &lt;ChevronRightIcon className=&quot;ml-auto size-4&quot; /&gt;
+    &lt;/DropdownMenuPrimitive.SubTrigger&gt;
+  );
+}
+
+function DropdownMenuSubContent({
+  className,
+  ...props
+}: React.ComponentProps&lt;typeof DropdownMenuPrimitive.SubContent&gt;) {
+  return (
+    &lt;DropdownMenuPrimitive.SubContent
+      data-slot=&quot;dropdown-menu-sub-content&quot;
+      className={cn(
+        &quot;bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-hidden rounded-md border p-1 shadow-lg&quot;,
+        className
+      )}
+      {...props}
+    /&gt;
+  );
+}
+
+export {
+  DropdownMenu,
+  DropdownMenuPortal,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuLabel,
+  DropdownMenuItem,
+  DropdownMenuCheckboxItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent
+};
+</code></pre></div>
+    <div class="file-container" id="components-ui-input-tsx">
+        <div class="file-header">
+            <span>components\ui\input.tsx</span>
+            <span class="file-size">1.0 KB</span>
+        </div>
+    <pre><code>import * as React from &quot;react&quot;;
+
+import { cn } from &quot;@/lib/utils&quot;;
+
+function Input({ className, type, ...props }: React.ComponentProps&lt;&quot;input&quot;&gt;) {
+  return (
+    &lt;input
+      type={type}
+      data-slot=&quot;input&quot;
+      className={cn(
+        &quot;file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm&quot;,
+        &quot;focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]&quot;,
+        &quot;aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive&quot;,
+        className
+      )}
+      {...props}
+    /&gt;
+  );
+}
+
+export { Input };
+</code></pre></div>
+    <div class="file-container" id="components-ui-label-tsx">
+        <div class="file-header">
+            <span>components\ui\label.tsx</span>
+            <span class="file-size">0.6 KB</span>
+        </div>
+    <pre><code>&quot;use client&quot;; <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- NEXT.JS: Marks this file as a Client Component. It ships to the browser and can use React hooks (useState, useEffect, onClick).</span>
+
+import * as React from &quot;react&quot;;
+import { Label as LabelPrimitive } from &quot;radix-ui&quot;;;
+
+import { cn } from &quot;@/lib/utils&quot;;
+
+function Label({
+  className,
+  ...props
+}: React.ComponentProps&lt;typeof LabelPrimitive.Root&gt;) {
+  return (
+    &lt;LabelPrimitive.Root
+      data-slot=&quot;label&quot;
+      className={cn(
+        &quot;flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50&quot;,
+        className
+      )}
+      {...props}
+    /&gt;
+  );
+}
+
+export { Label };
+</code></pre></div>
+    <div class="file-container" id="components-ui-radio-group-tsx">
+        <div class="file-header">
+            <span>components\ui\radio-group.tsx</span>
+            <span class="file-size">1.5 KB</span>
+        </div>
+    <pre><code>&quot;use client&quot;; <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- NEXT.JS: Marks this file as a Client Component. It ships to the browser and can use React hooks (useState, useEffect, onClick).</span>
+
+import * as React from &quot;react&quot;;
+import { RadioGroup as RadioGroupPrimitive } from &quot;radix-ui&quot;;;
+import { CircleIcon } from &quot;lucide-react&quot;;
+
+import { cn } from &quot;@/lib/utils&quot;;
+
+function RadioGroup({
+  className,
+  ...props
+}: React.ComponentProps&lt;typeof RadioGroupPrimitive.Root&gt;) {
+  return (
+    &lt;RadioGroupPrimitive.Root
+      data-slot=&quot;radio-group&quot;
+      className={cn(&quot;grid gap-3&quot;, className)}
+      {...props}
+    /&gt;
+  );
+}
+
+function RadioGroupItem({
+  className,
+  ...props
+}: React.ComponentProps&lt;typeof RadioGroupPrimitive.Item&gt;) {
+  return (
+    &lt;RadioGroupPrimitive.Item
+      data-slot=&quot;radio-group-item&quot;
+      className={cn(
+        &quot;border-input text-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 aspect-square size-4 shrink-0 rounded-full border shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50&quot;,
+        className
+      )}
+      {...props}
+    &gt;
+      &lt;RadioGroupPrimitive.Indicator
+        data-slot=&quot;radio-group-indicator&quot;
+        className=&quot;relative flex items-center justify-center&quot; <span style="color: #22863a; font-weight: bold; font-style: italic;">/* &lt;-- TAILWIND CSS: Utility classes for styling instead of external CSS files. */</span>
+      &gt;
+        &lt;CircleIcon className=&quot;fill-primary absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2&quot; /&gt;
+      &lt;/RadioGroupPrimitive.Indicator&gt;
+    &lt;/RadioGroupPrimitive.Item&gt;
+  );
+}
+
+export { RadioGroup, RadioGroupItem };
+</code></pre></div>
+    <div class="file-container" id="components-json">
+        <div class="file-header">
+            <span>components.json</span>
+            <span class="file-size">0.4 KB</span>
+        </div>
+    <pre><code>{
+  &quot;$schema&quot;: &quot;https://ui.shadcn.com/schema.json&quot;,
+  &quot;style&quot;: &quot;new-york&quot;,
+  &quot;rsc&quot;: true,
+  &quot;tsx&quot;: true,
+  &quot;tailwind&quot;: {
+    &quot;config&quot;: &quot;&quot;,
+    &quot;css&quot;: &quot;app/globals.css&quot;,
+    &quot;baseColor&quot;: &quot;zinc&quot;,
+    &quot;cssVariables&quot;: true,
+    &quot;prefix&quot;: &quot;&quot;
+  },
+  &quot;aliases&quot;: {
+    &quot;components&quot;: &quot;@/components&quot;,
+    &quot;utils&quot;: &quot;@/lib/utils&quot;,
+    &quot;ui&quot;: &quot;@/components/ui&quot;,
+    &quot;lib&quot;: &quot;@/lib&quot;,
+    &quot;hooks&quot;: &quot;@/hooks&quot;
+  },
+  &quot;iconLibrary&quot;: &quot;lucide&quot;
+}</code></pre></div>
+    <div class="file-container" id="docker-compose-yml">
+        <div class="file-header">
+            <span>docker-compose.yml</span>
+            <span class="file-size">0.3 KB</span>
+        </div>
+    <pre><code>
+services:
+  postgres:
+    image: postgres:16.4-alpine
+    container_name: next_saas_starter_postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - &quot;54322:5432&quot;
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+</code></pre></div>
+    <div class="file-container" id="drizzle-config-ts">
+        <div class="file-header">
+            <span>drizzle.config.ts</span>
+            <span class="file-size">0.2 KB</span>
+        </div>
+    <pre><code>import type { Config } from &#039;drizzle-kit&#039;;
+
+export default {
+  schema: &#039;./lib/db/schema.ts&#039;,
+  out: &#039;./lib/db/migrations&#039;,
+  dialect: &#039;postgresql&#039;,
+  dbCredentials: {
+    url: process.env.POSTGRES_URL!,
+  },
+} satisfies Config;
+</code></pre></div>
+    <div class="file-container" id="lib-auth-middleware-ts">
+        <div class="file-header">
+            <span>lib\auth\middleware.ts</span>
+            <span class="file-size">2.0 KB</span>
+        </div>
+    <pre><code>import { z } from &#039;zod&#039;;
+import { TeamDataWithMembers, User } from &#039;@/lib/db/schema&#039;;
+import { getTeamForUser, getUser } from &#039;@/lib/db/queries&#039;;
+import { redirect } from &#039;next/navigation&#039;;
+
+export type ActionState = {
+  error?: string;
+  success?: string;
+  [key: string]: any; // This allows for additional properties
+};
+
+type ValidatedActionFunction&lt;S extends z.ZodType&lt;any, any&gt;, T&gt; = (
+  data: z.infer&lt;S&gt;,
+  formData: FormData
+) =&gt; Promise&lt;T&gt;;
+
+export function validatedAction&lt;S extends z.ZodType&lt;any, any&gt;, T&gt;(
+  schema: S,
+  action: ValidatedActionFunction&lt;S, T&gt;
+) {
+  return async (prevState: ActionState, formData: FormData) =&gt; {
+    const result = schema.safeParse(Object.fromEntries(formData));
+    if (!result.success) {
+      return { error: result.error.errors[0].message };
+    }
+
+    return action(result.data, formData);
+  };
+}
+
+type ValidatedActionWithUserFunction&lt;S extends z.ZodType&lt;any, any&gt;, T&gt; = (
+  data: z.infer&lt;S&gt;,
+  formData: FormData,
+  user: User
+) =&gt; Promise&lt;T&gt;;
+
+export function validatedActionWithUser&lt;S extends z.ZodType&lt;any, any&gt;, T&gt;(
+  schema: S,
+  action: ValidatedActionWithUserFunction&lt;S, T&gt;
+) {
+  return async (prevState: ActionState, formData: FormData) =&gt; {
+    const user = await getUser();
+    if (!user) {
+      throw new Error(&#039;User is not authenticated&#039;);
+    }
+
+    const result = schema.safeParse(Object.fromEntries(formData));
+    if (!result.success) {
+      return { error: result.error.errors[0].message };
+    }
+
+    return action(result.data, formData, user);
+  };
+}
+
+type ActionWithTeamFunction&lt;T&gt; = (
+  formData: FormData,
+  team: TeamDataWithMembers
+) =&gt; Promise&lt;T&gt;;
+
+export function withTeam&lt;T&gt;(action: ActionWithTeamFunction&lt;T&gt;) {
+  return async (formData: FormData): Promise&lt;T&gt; =&gt; {
+    const user = await getUser();
+    if (!user) {
+      redirect(&#039;/sign-in&#039;);
+    }
+
+    const team = await getTeamForUser();
+    if (!team) {
+      throw new Error(&#039;Team not found&#039;);
+    }
+
+    return action(formData, team);
+  };
+}
+</code></pre></div>
+    <div class="file-container" id="lib-auth-session-ts">
+        <div class="file-header">
+            <span>lib\auth\session.ts</span>
+            <span class="file-size">1.6 KB</span>
+        </div>
+    <pre><code>import { compare, hash } from &#039;bcryptjs&#039;;
+import { SignJWT, jwtVerify } from &#039;jose&#039;;
+import { cookies } from &#039;next/headers&#039;;
+import { NewUser } from &#039;@/lib/db/schema&#039;;
+
+const key = new TextEncoder().encode(process.env.AUTH_SECRET);
+const SALT_ROUNDS = 10;
+
+export async function hashPassword(password: string) {
+  <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- REACT 19 SERVER ACTION: This async function runs securely on the server. Can be called directly from client forms or buttons.</span>
+  return hash(password, SALT_ROUNDS);
+}
+
+export async function comparePasswords(
+  plainTextPassword: string,
+  hashedPassword: string
+) {
+  return compare(plainTextPassword, hashedPassword);
+}
+
+type SessionData = {
+  user: { id: number };
+  expires: string;
+};
+
+export async function signToken(payload: SessionData) {
+  <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- REACT 19 SERVER ACTION: This async function runs securely on the server. Can be called directly from client forms or buttons.</span>
+  return await new SignJWT(payload)
+    .setProtectedHeader({ alg: &#039;HS256&#039; })
+    .setIssuedAt()
+    .setExpirationTime(&#039;1 day from now&#039;)
+    .sign(key);
+}
+
+export async function verifyToken(input: string) {
+  <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- REACT 19 SERVER ACTION: This async function runs securely on the server. Can be called directly from client forms or buttons.</span>
+  const { payload } = await jwtVerify(input, key, {
+    algorithms: [&#039;HS256&#039;],
+  });
+  return payload as SessionData;
+}
+
+export async function getSession() {
+  <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- REACT 19 SERVER ACTION: This async function runs securely on the server. Can be called directly from client forms or buttons.</span>
+  const session = (await cookies()).get(&#039;session&#039;)?.value;
+  if (!session) return null;
+  return await verifyToken(session);
+}
+
+export async function setSession(user: NewUser) {
+  <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- REACT 19 SERVER ACTION: This async function runs securely on the server. Can be called directly from client forms or buttons.</span>
+  const expiresInOneDay = new Date(Date.now() + 24 * 60 * 60 * 1000);
+  const session: SessionData = {
+    user: { id: user.id! },
+    expires: expiresInOneDay.toISOString(),
+  };
+  const encryptedSession = await signToken(session);
+  (await cookies()).set(&#039;session&#039;, encryptedSession, {
+    expires: expiresInOneDay,
+    httpOnly: true,
+    secure: true,
+    sameSite: &#039;lax&#039;,
+  });
+}
+</code></pre></div>
+    <div class="file-container" id="lib-db-drizzle-ts">
+        <div class="file-header">
+            <span>lib\db\drizzle.ts</span>
+            <span class="file-size">0.4 KB</span>
+        </div>
+    <pre><code><span style="color: #22863a; font-weight: bold; font-style: italic;">// DRIZZLE ORM: A lightweight, type-safe SQL ORM used here to map TypeScript objects directly to database tables.</span>
+import { drizzle } from &#039;drizzle-orm/postgres-js&#039;;
+import postgres from &#039;postgres&#039;;
+import * as schema from &#039;./schema&#039;;
+import dotenv from &#039;dotenv&#039;;
+
+dotenv.config();
+
+if (!process.env.POSTGRES_URL) {
+  throw new Error(&#039;POSTGRES_URL environment variable is not set&#039;);
+}
+
+export const client = postgres(process.env.POSTGRES_URL);
+export const db = drizzle(client, { schema });
+</code></pre></div>
+    <div class="file-container" id="lib-db-queries-ts">
+        <div class="file-header">
+            <span>lib\db\queries.ts</span>
+            <span class="file-size">3.0 KB</span>
+        </div>
+    <pre><code><span style="color: #22863a; font-weight: bold; font-style: italic;">// DRIZZLE ORM: A lightweight, type-safe SQL ORM used here to map TypeScript objects directly to database tables.</span>
+import { desc, and, eq, isNull } from &#039;drizzle-orm&#039;;
+import { db } from &#039;./drizzle&#039;;
+import { activityLogs, teamMembers, teams, users } from &#039;./schema&#039;;
+import { cookies } from &#039;next/headers&#039;;
+import { verifyToken } from &#039;@/lib/auth/session&#039;;
+
+export async function getUser() {
+  <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- REACT 19 SERVER ACTION: This async function runs securely on the server. Can be called directly from client forms or buttons.</span>
+  const sessionCookie = (await cookies()).get(&#039;session&#039;);
+  if (!sessionCookie || !sessionCookie.value) {
+    return null;
+  }
+
+  const sessionData = await verifyToken(sessionCookie.value);
+  if (
+    !sessionData ||
+    !sessionData.user ||
+    typeof sessionData.user.id !== &#039;number&#039;
+  ) {
+    return null;
+  }
+
+  if (new Date(sessionData.expires) &lt; new Date()) {
+    return null;
+  }
+
+  const user = await db
+    .select()
+    .from(users)
+    .where(and(eq(users.id, sessionData.user.id), isNull(users.deletedAt)))
+    .limit(1);
+
+  if (user.length === 0) {
+    return null;
+  }
+
+  return user[0];
+}
+
+export async function getTeamByStripeCustomerId(customerId: string) {
+  <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- REACT 19 SERVER ACTION: This async function runs securely on the server. Can be called directly from client forms or buttons.</span>
+  const result = await db
+    .select()
+    .from(teams)
+    .where(eq(teams.stripeCustomerId, customerId))
+    .limit(1);
+
+  return result.length &gt; 0 ? result[0] : null;
+}
+
+export async function updateTeamSubscription(
+  teamId: number,
+  subscriptionData: {
+    stripeSubscriptionId: string | null;
+    stripeProductId: string | null;
+    planName: string | null;
+    subscriptionStatus: string;
+  }
+) {
+  await db
+    .update(teams)
+    .set({
+      ...subscriptionData,
+      updatedAt: new Date()
+    })
+    .where(eq(teams.id, teamId));
+}
+
+export async function getUserWithTeam(userId: number) {
+  <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- REACT 19 SERVER ACTION: This async function runs securely on the server. Can be called directly from client forms or buttons.</span>
+  const result = await db
+    .select({
+      user: users,
+      teamId: teamMembers.teamId
+    })
+    .from(users)
+    .leftJoin(teamMembers, eq(users.id, teamMembers.userId))
+    .where(eq(users.id, userId))
+    .limit(1);
+
+  return result[0];
+}
+
+export async function getActivityLogs() {
+  <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- REACT 19 SERVER ACTION: This async function runs securely on the server. Can be called directly from client forms or buttons.</span>
+  const user = await getUser();
+  if (!user) {
+    throw new Error(&#039;User not authenticated&#039;);
+  }
+
+  return await db
+    .select({
+      id: activityLogs.id,
+      action: activityLogs.action,
+      timestamp: activityLogs.timestamp,
+      ipAddress: activityLogs.ipAddress,
+      userName: users.name
+    })
+    .from(activityLogs)
+    .leftJoin(users, eq(activityLogs.userId, users.id))
+    .where(eq(activityLogs.userId, user.id))
+    .orderBy(desc(activityLogs.timestamp))
+    .limit(10);
+}
+
+export async function getTeamForUser() {
+  <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- REACT 19 SERVER ACTION: This async function runs securely on the server. Can be called directly from client forms or buttons.</span>
+  const user = await getUser();
+  if (!user) {
+    return null;
+  }
+
+  const result = await db.query.teamMembers.findFirst({
+    where: eq(teamMembers.userId, user.id),
+    with: {
+      team: {
+        with: {
+          teamMembers: {
+            with: {
+              user: {
+                columns: {
+                  id: true,
+                  name: true,
+                  email: true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  });
+
+  return result?.team || null;
+}
+</code></pre></div>
+    <div class="file-container" id="lib-db-schema-ts">
+        <div class="file-header">
+            <span>lib\db\schema.ts</span>
+            <span class="file-size">4.6 KB</span>
+        </div>
+    <pre><code><span style="color: #22863a; font-weight: bold; font-style: italic;">// DRIZZLE ORM: A lightweight, type-safe SQL ORM used here to map TypeScript objects directly to database tables.</span>
+import {
+  pgTable,
+  serial,
+  varchar,
+  text,
+  timestamp,
+  integer,
+} from &#039;drizzle-orm/pg-core&#039;;
+import { relations } from &#039;drizzle-orm&#039;;
+
+export const users = pgTable(&#039;users&#039;, {
+  id: serial(&#039;id&#039;).primaryKey(),
+  name: varchar(&#039;name&#039;, { length: 100 }),
+  email: varchar(&#039;email&#039;, { length: 255 }).notNull().unique(),
+  passwordHash: text(&#039;password_hash&#039;).notNull(),
+  role: varchar(&#039;role&#039;, { length: 20 }).notNull().default(&#039;member&#039;),
+  createdAt: timestamp(&#039;created_at&#039;).notNull().defaultNow(),
+  updatedAt: timestamp(&#039;updated_at&#039;).notNull().defaultNow(),
+  deletedAt: timestamp(&#039;deleted_at&#039;),
+});
+
+export const teams = pgTable(&#039;teams&#039;, {
+  id: serial(&#039;id&#039;).primaryKey(),
+  name: varchar(&#039;name&#039;, { length: 100 }).notNull(),
+  createdAt: timestamp(&#039;created_at&#039;).notNull().defaultNow(),
+  updatedAt: timestamp(&#039;updated_at&#039;).notNull().defaultNow(),
+  stripeCustomerId: text(&#039;stripe_customer_id&#039;).unique(),
+  stripeSubscriptionId: text(&#039;stripe_subscription_id&#039;).unique(),
+  stripeProductId: text(&#039;stripe_product_id&#039;),
+  planName: varchar(&#039;plan_name&#039;, { length: 50 }),
+  subscriptionStatus: varchar(&#039;subscription_status&#039;, { length: 20 }),
+});
+
+export const teamMembers = pgTable(&#039;team_members&#039;, {
+  id: serial(&#039;id&#039;).primaryKey(),
+  userId: integer(&#039;user_id&#039;)
+    .notNull()
+    .references(() =&gt; users.id),
+  teamId: integer(&#039;team_id&#039;)
+    .notNull()
+    .references(() =&gt; teams.id),
+  role: varchar(&#039;role&#039;, { length: 50 }).notNull(),
+  joinedAt: timestamp(&#039;joined_at&#039;).notNull().defaultNow(),
+});
+
+export const activityLogs = pgTable(&#039;activity_logs&#039;, {
+  id: serial(&#039;id&#039;).primaryKey(),
+  teamId: integer(&#039;team_id&#039;)
+    .notNull()
+    .references(() =&gt; teams.id),
+  userId: integer(&#039;user_id&#039;).references(() =&gt; users.id),
+  action: text(&#039;action&#039;).notNull(),
+  timestamp: timestamp(&#039;timestamp&#039;).notNull().defaultNow(),
+  ipAddress: varchar(&#039;ip_address&#039;, { length: 45 }),
+});
+
+export const invitations = pgTable(&#039;invitations&#039;, {
+  id: serial(&#039;id&#039;).primaryKey(),
+  teamId: integer(&#039;team_id&#039;)
+    .notNull()
+    .references(() =&gt; teams.id),
+  email: varchar(&#039;email&#039;, { length: 255 }).notNull(),
+  role: varchar(&#039;role&#039;, { length: 50 }).notNull(),
+  invitedBy: integer(&#039;invited_by&#039;)
+    .notNull()
+    .references(() =&gt; users.id),
+  invitedAt: timestamp(&#039;invited_at&#039;).notNull().defaultNow(),
+  status: varchar(&#039;status&#039;, { length: 20 }).notNull().default(&#039;pending&#039;),
+});
+
+export const teamsRelations = relations(teams, ({ many }) =&gt; ({
+  teamMembers: many(teamMembers),
+  activityLogs: many(activityLogs),
+  invitations: many(invitations),
+}));
+
+export const usersRelations = relations(users, ({ many }) =&gt; ({
+  teamMembers: many(teamMembers),
+  invitationsSent: many(invitations),
+}));
+
+export const invitationsRelations = relations(invitations, ({ one }) =&gt; ({
+  team: one(teams, {
+    fields: [invitations.teamId],
+    references: [teams.id],
+  }),
+  invitedBy: one(users, {
+    fields: [invitations.invitedBy],
+    references: [users.id],
+  }),
+}));
+
+export const teamMembersRelations = relations(teamMembers, ({ one }) =&gt; ({
+  user: one(users, {
+    fields: [teamMembers.userId],
+    references: [users.id],
+  }),
+  team: one(teams, {
+    fields: [teamMembers.teamId],
+    references: [teams.id],
+  }),
+}));
+
+export const activityLogsRelations = relations(activityLogs, ({ one }) =&gt; ({
+  team: one(teams, {
+    fields: [activityLogs.teamId],
+    references: [teams.id],
+  }),
+  user: one(users, {
+    fields: [activityLogs.userId],
+    references: [users.id],
+  }),
+}));
+
+export type User = typeof users.$inferSelect;
+export type NewUser = typeof users.$inferInsert;
+export type Team = typeof teams.$inferSelect;
+export type NewTeam = typeof teams.$inferInsert;
+export type TeamMember = typeof teamMembers.$inferSelect;
+export type NewTeamMember = typeof teamMembers.$inferInsert;
+export type ActivityLog = typeof activityLogs.$inferSelect;
+export type NewActivityLog = typeof activityLogs.$inferInsert;
+export type Invitation = typeof invitations.$inferSelect;
+export type NewInvitation = typeof invitations.$inferInsert;
+export type TeamDataWithMembers = Team &amp; {
+  teamMembers: (TeamMember &amp; {
+    user: Pick&lt;User, &#039;id&#039; | &#039;name&#039; | &#039;email&#039;&gt;;
+  })[];
+};
+
+export enum ActivityType {
+  SIGN_UP = &#039;SIGN_UP&#039;,
+  SIGN_IN = &#039;SIGN_IN&#039;,
+  SIGN_OUT = &#039;SIGN_OUT&#039;,
+  UPDATE_PASSWORD = &#039;UPDATE_PASSWORD&#039;,
+  DELETE_ACCOUNT = &#039;DELETE_ACCOUNT&#039;,
+  UPDATE_ACCOUNT = &#039;UPDATE_ACCOUNT&#039;,
+  CREATE_TEAM = &#039;CREATE_TEAM&#039;,
+  REMOVE_TEAM_MEMBER = &#039;REMOVE_TEAM_MEMBER&#039;,
+  INVITE_TEAM_MEMBER = &#039;INVITE_TEAM_MEMBER&#039;,
+  ACCEPT_INVITATION = &#039;ACCEPT_INVITATION&#039;,
+}
+</code></pre></div>
+    <div class="file-container" id="lib-db-seed-ts">
+        <div class="file-header">
+            <span>lib\db\seed.ts</span>
+            <span class="file-size">1.9 KB</span>
+        </div>
+    <pre><code>import { stripe } from &#039;../payments/stripe&#039;;
+import { db } from &#039;./drizzle&#039;;
+import { users, teams, teamMembers } from &#039;./schema&#039;;
+import { hashPassword } from &#039;@/lib/auth/session&#039;;
+
+async function createStripeProducts() {
+  console.log(&#039;Creating Stripe products and prices...&#039;);
+
+  const baseProduct = await stripe.products.create({
+    name: &#039;Base&#039;,
+    description: &#039;Base subscription plan&#039;,
+  });
+
+  await stripe.prices.create({
+    product: baseProduct.id,
+    unit_amount: 800, // $8 in cents
+    currency: &#039;usd&#039;,
+    recurring: {
+      interval: &#039;month&#039;,
+      trial_period_days: 7,
+    },
+  });
+
+  const plusProduct = await stripe.products.create({
+    name: &#039;Plus&#039;,
+    description: &#039;Plus subscription plan&#039;,
+  });
+
+  await stripe.prices.create({
+    product: plusProduct.id,
+    unit_amount: 1200, // $12 in cents
+    currency: &#039;usd&#039;,
+    recurring: {
+      interval: &#039;month&#039;,
+      trial_period_days: 7,
+    },
+  });
+
+  console.log(&#039;Stripe products and prices created successfully.&#039;);
+}
+
+async function seed() {
+  const email = &#039;test@test.com&#039;;
+  const password = &#039;admin123&#039;;
+  const passwordHash = await hashPassword(password);
+
+  const [user] = await db
+    .insert(users)
+    .values([
+      {
+        email: email,
+        passwordHash: passwordHash,
+        role: &quot;owner&quot;,
+      },
+    ])
+    .returning();
+
+  console.log(&#039;Initial user created.&#039;);
+
+  const [team] = await db
+    .insert(teams)
+    .values({
+      name: &#039;Test Team&#039;,
+    })
+    .returning();
+
+  await db.insert(teamMembers).values({
+    teamId: team.id,
+    userId: user.id,
+    role: &#039;owner&#039;,
+  });
+
+  await createStripeProducts();
+}
+
+seed()
+  .catch((error) =&gt; {
+    console.error(&#039;Seed process failed:&#039;, error);
+    process.exit(1);
+  })
+  .finally(() =&gt; {
+    console.log(&#039;Seed process finished. Exiting...&#039;);
+    process.exit(0);
+  });
+</code></pre></div>
+    <div class="file-container" id="lib-db-setup-ts">
+        <div class="file-header">
+            <span>lib\db\setup.ts</span>
+            <span class="file-size">6.4 KB</span>
+        </div>
+    <pre><code>import { exec } from &#039;node:child_process&#039;;
+import { promises as fs } from &#039;node:fs&#039;;
+import { promisify } from &#039;node:util&#039;;
+import readline from &#039;node:readline&#039;;
+import crypto from &#039;node:crypto&#039;;
+import path from &#039;node:path&#039;;
+import os from &#039;node:os&#039;;
+
+const execAsync = promisify(exec);
+
+function question(query: string): Promise&lt;string&gt; {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  return new Promise((resolve) =&gt;
+    rl.question(query, (ans) =&gt; {
+      rl.close();
+      resolve(ans);
+    })
+  );
+}
+
+async function checkStripeCLI() {
+  console.log(
+    &#039;Step 1: Checking if Stripe CLI is installed and authenticated...&#039;
+  );
+  try {
+    await execAsync(&#039;stripe --version&#039;);
+    console.log(&#039;Stripe CLI is installed.&#039;);
+
+    // Check if Stripe CLI is authenticated
+    try {
+      await execAsync(&#039;stripe config --list&#039;);
+      console.log(&#039;Stripe CLI is authenticated.&#039;);
+    } catch (error) {
+      console.log(
+        &#039;Stripe CLI is not authenticated or the authentication has expired.&#039;
+      );
+      console.log(&#039;Please run: stripe login&#039;);
+      const answer = await question(
+        &#039;Have you completed the authentication? (y/n): &#039;
+      );
+      if (answer.toLowerCase() !== &#039;y&#039;) {
+        console.log(
+          &#039;Please authenticate with Stripe CLI and run this script again.&#039;
+        );
+        process.exit(1);
+      }
+
+      // Verify authentication after user confirms login
+      try {
+        await execAsync(&#039;stripe config --list&#039;);
+        console.log(&#039;Stripe CLI authentication confirmed.&#039;);
+      } catch (error) {
+        console.error(
+          &#039;Failed to verify Stripe CLI authentication. Please try again.&#039;
+        );
+        process.exit(1);
+      }
+    }
+  } catch (error) {
+    console.error(
+      &#039;Stripe CLI is not installed. Please install it and try again.&#039;
+    );
+    console.log(&#039;To install Stripe CLI, follow these steps:&#039;);
+    console.log(&#039;1. Visit: https://docs.stripe.com/stripe-cli&#039;);
+    console.log(
+      &#039;2. Download and install the Stripe CLI for your operating system&#039;
+    );
+    console.log(&#039;3. After installation, run: stripe login&#039;);
+    console.log(
+      &#039;After installation and authentication, please run this setup script again.&#039;
+    );
+    process.exit(1);
+  }
+}
+
+async function getPostgresURL(): Promise&lt;string&gt; {
+  console.log(&#039;Step 2: Setting up Postgres&#039;);
+  const dbChoice = await question(
+    &#039;Do you want to use a local Postgres instance with Docker (L) or a remote Postgres instance (R)? (L/R): &#039;
+  );
+
+  if (dbChoice.toLowerCase() === &#039;l&#039;) {
+    console.log(&#039;Setting up local Postgres instance with Docker...&#039;);
+    await setupLocalPostgres();
+    return &#039;postgres://postgres:postgres@localhost:54322/postgres&#039;;
+  } else {
+    console.log(
+      &#039;You can find Postgres databases at: https://vercel.com/marketplace?category=databases&#039;
+    );
+    return await question(&#039;Enter your POSTGRES_URL: &#039;);
+  }
+}
+
+async function setupLocalPostgres() {
+  console.log(&#039;Checking if Docker is installed...&#039;);
+  try {
+    await execAsync(&#039;docker --version&#039;);
+    console.log(&#039;Docker is installed.&#039;);
+  } catch (error) {
+    console.error(
+      &#039;Docker is not installed. Please install Docker and try again.&#039;
+    );
+    console.log(
+      &#039;To install Docker, visit: https://docs.docker.com/get-docker/&#039;
+    );
+    process.exit(1);
+  }
+
+  console.log(&#039;Creating docker-compose.yml file...&#039;);
+  const dockerComposeContent = `
+services:
+  postgres:
+    image: postgres:16.4-alpine
+    container_name: next_saas_starter_postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - &quot;54322:5432&quot;
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+`;
+
+  await fs.writeFile(
+    path.join(process.cwd(), &#039;docker-compose.yml&#039;),
+    dockerComposeContent
+  );
+  console.log(&#039;docker-compose.yml file created.&#039;);
+
+  console.log(&#039;Starting Docker container with `docker compose up -d`...&#039;);
+  try {
+    await execAsync(&#039;docker compose up -d&#039;);
+    console.log(&#039;Docker container started successfully.&#039;);
+  } catch (error) {
+    console.error(
+      &#039;Failed to start Docker container. Please check your Docker installation and try again.&#039;
+    );
+    process.exit(1);
+  }
+}
+
+async function getStripeSecretKey(): Promise&lt;string&gt; {
+  console.log(&#039;Step 3: Getting Stripe Secret Key&#039;);
+  console.log(
+    &#039;You can find your Stripe Secret Key at: https://dashboard.stripe.com/test/apikeys&#039;
+  );
+  return await question(&#039;Enter your Stripe Secret Key: &#039;);
+}
+
+async function createStripeWebhook(): Promise&lt;string&gt; {
+  console.log(&#039;Step 4: Creating Stripe webhook...&#039;);
+  try {
+    const { stdout } = await execAsync(&#039;stripe listen --print-secret&#039;);
+    const match = stdout.match(/whsec_[a-zA-Z0-9]+/);
+    if (!match) {
+      throw new Error(&#039;Failed to extract Stripe webhook secret&#039;);
+    }
+    console.log(&#039;Stripe webhook created.&#039;);
+    return match[0];
+  } catch (error) {
+    console.error(
+      &#039;Failed to create Stripe webhook. Check your Stripe CLI installation and permissions.&#039;
+    );
+    if (os.platform() === &#039;win32&#039;) {
+      console.log(
+        &#039;Note: On Windows, you may need to run this script as an administrator.&#039;
+      );
+    }
+    throw error;
+  }
+}
+
+function generateAuthSecret(): string {
+  console.log(&#039;Step 5: Generating AUTH_SECRET...&#039;);
+  return crypto.randomBytes(32).toString(&#039;hex&#039;);
+}
+
+async function writeEnvFile(envVars: Record&lt;string, string&gt;) {
+  console.log(&#039;Step 6: Writing environment variables to .env&#039;);
+  const envContent = Object.entries(envVars)
+    .map(([key, value]) =&gt; `${key}=${value}`)
+    .join(&#039;\n&#039;);
+
+  await fs.writeFile(path.join(process.cwd(), &#039;.env&#039;), envContent);
+  console.log(&#039;.env file created with the necessary variables.&#039;);
+}
+
+async function main() {
+  await checkStripeCLI();
+
+  const POSTGRES_URL = await getPostgresURL();
+  const STRIPE_SECRET_KEY = await getStripeSecretKey();
+  const STRIPE_WEBHOOK_SECRET = await createStripeWebhook();
+  const BASE_URL = &#039;http://localhost:3000&#039;;
+  const AUTH_SECRET = generateAuthSecret();
+
+  await writeEnvFile({
+    POSTGRES_URL,
+    STRIPE_SECRET_KEY,
+    STRIPE_WEBHOOK_SECRET,
+    BASE_URL,
+    AUTH_SECRET,
+  });
+
+  console.log(&#039;🎉 Setup completed successfully!&#039;);
+}
+
+main().catch(console.error);
+</code></pre></div>
+    <div class="file-container" id="lib-payments-actions-ts">
+        <div class="file-header">
+            <span>lib\payments\actions.ts</span>
+            <span class="file-size">0.5 KB</span>
+        </div>
+    <pre><code>&#039;use server&#039;;
+
+import { redirect } from &#039;next/navigation&#039;;
+import { createCheckoutSession, createCustomerPortalSession } from &#039;./stripe&#039;;
+import { withTeam } from &#039;@/lib/auth/middleware&#039;;
+
+export const checkoutAction = withTeam(async (formData, team) =&gt; {
+  const priceId = formData.get(&#039;priceId&#039;) as string;
+  await createCheckoutSession({ team: team, priceId });
+});
+
+export const customerPortalAction = withTeam(async (_, team) =&gt; {
+  const portalSession = await createCustomerPortalSession(team);
+  redirect(portalSession.url);
+});
+</code></pre></div>
+    <div class="file-container" id="lib-payments-stripe-ts">
+        <div class="file-header">
+            <span>lib\payments\stripe.ts</span>
+            <span class="file-size">5.0 KB</span>
+        </div>
+    <pre><code>import Stripe from &#039;stripe&#039;;
+import { redirect } from &#039;next/navigation&#039;;
+import { Team } from &#039;@/lib/db/schema&#039;;
+import {
+  getTeamByStripeCustomerId,
+  getUser,
+  updateTeamSubscription
+} from &#039;@/lib/db/queries&#039;;
+
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: &#039;2025-04-30.basil&#039;
+});
+
+export async function createCheckoutSession({
+  team,
+  priceId
+}: {
+  team: Team | null;
+  priceId: string;
+}) {
+  const user = await getUser();
+
+  if (!team || !user) {
+    redirect(`/sign-up?redirect=checkout&amp;priceId=${priceId}`);
+  }
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: [&#039;card&#039;],
+    line_items: [
+      {
+        price: priceId,
+        quantity: 1
+      }
+    ],
+    mode: &#039;subscription&#039;,
+    success_url: `${process.env.BASE_URL}/api/stripe/checkout?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${process.env.BASE_URL}/pricing`,
+    customer: team.stripeCustomerId || undefined,
+    client_reference_id: user.id.toString(),
+    allow_promotion_codes: true,
+    subscription_data: {
+      trial_period_days: 14
+    }
+  });
+
+  redirect(session.url!);
+}
+
+export async function createCustomerPortalSession(team: Team) {
+  <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- REACT 19 SERVER ACTION: This async function runs securely on the server. Can be called directly from client forms or buttons.</span>
+  if (!team.stripeCustomerId || !team.stripeProductId) {
+    redirect(&#039;/pricing&#039;);
+  }
+
+  let configuration: Stripe.BillingPortal.Configuration;
+  const configurations = await stripe.billingPortal.configurations.list();
+
+  if (configurations.data.length &gt; 0) {
+    configuration = configurations.data[0];
+  } else {
+    const product = await stripe.products.retrieve(team.stripeProductId);
+    if (!product.active) {
+      throw new Error(&quot;Team&#039;s product is not active in Stripe&quot;);
+    }
+
+    const prices = await stripe.prices.list({
+      product: product.id,
+      active: true
+    });
+    if (prices.data.length === 0) {
+      throw new Error(&quot;No active prices found for the team&#039;s product&quot;);
+    }
+
+    configuration = await stripe.billingPortal.configurations.create({
+      business_profile: {
+        headline: &#039;Manage your subscription&#039;
+      },
+      features: {
+        subscription_update: {
+          enabled: true,
+          default_allowed_updates: [&#039;price&#039;, &#039;quantity&#039;, &#039;promotion_code&#039;],
+          proration_behavior: &#039;create_prorations&#039;,
+          products: [
+            {
+              product: product.id,
+              prices: prices.data.map((price) =&gt; price.id)
+            }
+          ]
+        },
+        subscription_cancel: {
+          enabled: true,
+          mode: &#039;at_period_end&#039;,
+          cancellation_reason: {
+            enabled: true,
+            options: [
+              &#039;too_expensive&#039;,
+              &#039;missing_features&#039;,
+              &#039;switched_service&#039;,
+              &#039;unused&#039;,
+              &#039;other&#039;
+            ]
+          }
+        },
+        payment_method_update: {
+          enabled: true
+        }
+      }
+    });
+  }
+
+  return stripe.billingPortal.sessions.create({
+    customer: team.stripeCustomerId,
+    return_url: `${process.env.BASE_URL}/dashboard`,
+    configuration: configuration.id
+  });
+}
+
+export async function handleSubscriptionChange(
+  subscription: Stripe.Subscription
+) {
+  const customerId = subscription.customer as string;
+  const subscriptionId = subscription.id;
+  const status = subscription.status;
+
+  const team = await getTeamByStripeCustomerId(customerId);
+
+  if (!team) {
+    console.error(&#039;Team not found for Stripe customer:&#039;, customerId);
+    return;
+  }
+
+  if (status === &#039;active&#039; || status === &#039;trialing&#039;) {
+    const plan = subscription.items.data[0]?.plan;
+    await updateTeamSubscription(team.id, {
+      stripeSubscriptionId: subscriptionId,
+      stripeProductId: plan?.product as string,
+      planName: (plan?.product as Stripe.Product).name,
+      subscriptionStatus: status
+    });
+  } else if (status === &#039;canceled&#039; || status === &#039;unpaid&#039;) {
+    await updateTeamSubscription(team.id, {
+      stripeSubscriptionId: null,
+      stripeProductId: null,
+      planName: null,
+      subscriptionStatus: status
+    });
+  }
+}
+
+export async function getStripePrices() {
+  <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- REACT 19 SERVER ACTION: This async function runs securely on the server. Can be called directly from client forms or buttons.</span>
+  const prices = await stripe.prices.list({
+    expand: [&#039;data.product&#039;],
+    active: true,
+    type: &#039;recurring&#039;
+  });
+
+  return prices.data.map((price) =&gt; ({
+    id: price.id,
+    productId:
+      typeof price.product === &#039;string&#039; ? price.product : price.product.id,
+    unitAmount: price.unit_amount,
+    currency: price.currency,
+    interval: price.recurring?.interval,
+    trialPeriodDays: price.recurring?.trial_period_days
+  }));
+}
+
+export async function getStripeProducts() {
+  <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- REACT 19 SERVER ACTION: This async function runs securely on the server. Can be called directly from client forms or buttons.</span>
+  const products = await stripe.products.list({
+    active: true,
+    expand: [&#039;data.default_price&#039;]
+  });
+
+  return products.data.map((product) =&gt; ({
+    id: product.id,
+    name: product.name,
+    description: product.description,
+    defaultPriceId:
+      typeof product.default_price === &#039;string&#039;
+        ? product.default_price
+        : product.default_price?.id
+  }));
+}
+</code></pre></div>
+    <div class="file-container" id="lib-utils-ts">
+        <div class="file-header">
+            <span>lib\utils.ts</span>
+            <span class="file-size">0.2 KB</span>
+        </div>
+    <pre><code>import { clsx, type ClassValue } from &quot;clsx&quot;
+import { twMerge } from &quot;tailwind-merge&quot;
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+</code></pre></div>
+    <div class="file-container" id="middleware-ts">
+        <div class="file-header">
+            <span>middleware.ts</span>
+            <span class="file-size">1.4 KB</span>
+        </div>
+    <pre><code>import { NextResponse } from &#039;next/server&#039;;
+import type { NextRequest } from &#039;next/server&#039;;
+import { signToken, verifyToken } from &#039;@/lib/auth/session&#039;;
+
+const protectedRoutes = &#039;/dashboard&#039;;
+
+export async function middleware(request: NextRequest) {
+  <span style="color: #22863a; font-weight: bold; font-style: italic;">// &lt;-- REACT 19 SERVER ACTION: This async function runs securely on the server. Can be called directly from client forms or buttons.</span>
+  const { pathname } = request.nextUrl;
+  const sessionCookie = request.cookies.get(&#039;session&#039;);
+  const isProtectedRoute = pathname.startsWith(protectedRoutes);
+
+  if (isProtectedRoute &amp;&amp; !sessionCookie) {
+    return NextResponse.redirect(new URL(&#039;/sign-in&#039;, request.url));
+  }
+
+  let res = NextResponse.next();
+
+  if (sessionCookie &amp;&amp; request.method === &#039;GET&#039;) {
+    try {
+      const parsed = await verifyToken(sessionCookie.value);
+      const expiresInOneDay = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
+      res.cookies.set({
+        name: &#039;session&#039;,
+        value: await signToken({
+          ...parsed,
+          expires: expiresInOneDay.toISOString()
+        }),
+        httpOnly: true,
+        secure: true,
+        sameSite: &#039;lax&#039;,
+        expires: expiresInOneDay
+      });
+    } catch (error) {
+      console.error(&#039;Error updating session:&#039;, error);
+      res.cookies.delete(&#039;session&#039;);
+      if (isProtectedRoute) {
+        return NextResponse.redirect(new URL(&#039;/sign-in&#039;, request.url));
+      }
+    }
+  }
+
+  return res;
+}
+
+export const config = {
+  matcher: [&#039;/((?!api|_next/static|_next/image|favicon.ico).*)&#039;],
+  runtime: &#039;nodejs&#039;
+};
+</code></pre></div>
+    <div class="file-container" id="next-env-d-ts">
+        <div class="file-header">
+            <span>next-env.d.ts</span>
+            <span class="file-size">0.3 KB</span>
+        </div>
+    <pre><code>/// &lt;reference types=&quot;next&quot; /&gt;
+/// &lt;reference types=&quot;next/image-types/global&quot; /&gt;
+import &quot;./.next/dev/types/routes.d.ts&quot;;
+
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
+</code></pre></div>
+    <div class="file-container" id="next-config-ts">
+        <div class="file-header">
+            <span>next.config.ts</span>
+            <span class="file-size">0.2 KB</span>
+        </div>
+    <pre><code>import type { NextConfig } from &#039;next&#039;;
+
+const nextConfig: NextConfig = {
+  experimental: {
+    ppr: true,
+    clientSegmentCache: true
+  }
+};
+
+export default nextConfig;
+</code></pre></div>
+    <div class="file-container" id="package-json">
+        <div class="file-header">
+            <span>package.json</span>
+            <span class="file-size">1.1 KB</span>
+        </div>
+    <pre><code><span style="color: #22863a; font-weight: bold; font-style: italic;">// DRIZZLE ORM: A lightweight, type-safe SQL ORM used here to map TypeScript objects directly to database tables.</span>
+{
+  &quot;private&quot;: true,
+  &quot;scripts&quot;: {
+    &quot;dev&quot;: &quot;next dev --turbopack&quot;,
+    &quot;build&quot;: &quot;next build&quot;,
+    &quot;start&quot;: &quot;next start&quot;,
+    &quot;db:setup&quot;: &quot;npx tsx lib/db/setup.ts&quot;,
+    &quot;db:seed&quot;: &quot;npx tsx lib/db/seed.ts&quot;,
+    &quot;db:generate&quot;: &quot;drizzle-kit generate&quot;,
+    &quot;db:migrate&quot;: &quot;drizzle-kit migrate&quot;,
+    &quot;db:studio&quot;: &quot;drizzle-kit studio&quot;
+  },
+  &quot;dependencies&quot;: {
+    &quot;@tailwindcss/postcss&quot;: &quot;4.1.7&quot;,
+    &quot;@types/node&quot;: &quot;^22.15.18&quot;,
+    &quot;@types/react&quot;: &quot;19.1.4&quot;,
+    &quot;@types/react-dom&quot;: &quot;19.1.5&quot;,
+    &quot;autoprefixer&quot;: &quot;^10.4.21&quot;,
+    &quot;bcryptjs&quot;: &quot;^3.0.2&quot;,
+    &quot;class-variance-authority&quot;: &quot;^0.7.1&quot;,
+    &quot;clsx&quot;: &quot;^2.1.1&quot;,
+    &quot;dotenv&quot;: &quot;^16.5.0&quot;,
+    &quot;drizzle-kit&quot;: &quot;^0.31.1&quot;,
+    &quot;drizzle-orm&quot;: &quot;^0.43.1&quot;,
+    &quot;jose&quot;: &quot;^6.0.11&quot;,
+    &quot;lucide-react&quot;: &quot;^0.511.0&quot;,
+    &quot;next&quot;: &quot;15.6.0-canary.59&quot;,
+    &quot;postcss&quot;: &quot;^8.5.3&quot;,
+    &quot;postgres&quot;: &quot;^3.4.5&quot;,
+    &quot;radix-ui&quot;: &quot;^1.4.2&quot;,
+    &quot;react&quot;: &quot;19.1.0&quot;,
+    &quot;react-dom&quot;: &quot;19.1.0&quot;,
+    &quot;server-only&quot;: &quot;^0.0.1&quot;,
+    &quot;stripe&quot;: &quot;^18.1.0&quot;,
+    &quot;swr&quot;: &quot;^2.3.3&quot;,
+    &quot;tailwind-merge&quot;: &quot;^3.3.0&quot;,
+    &quot;tailwindcss&quot;: &quot;4.1.7&quot;,
+    &quot;tw-animate-css&quot;: &quot;^1.3.0&quot;,
+    &quot;typescript&quot;: &quot;^5.8.3&quot;,
+    &quot;zod&quot;: &quot;^3.24.4&quot;
+  }
+}
+</code></pre></div>
+    <div class="file-container" id="postcss-config-mjs">
+        <div class="file-header">
+            <span>postcss.config.mjs</span>
+            <span class="file-size">0.1 KB</span>
+        </div>
+    <pre><code>export default {
+  plugins: {
+    &#039;@tailwindcss/postcss&#039;: {},
+  },
+};
+</code></pre></div>
+    <div class="file-container" id="README-md">
+        <div class="file-header">
+            <span>README.md</span>
+            <span class="file-size">3.8 KB</span>
+        </div>
+    <pre><code># Next.js SaaS Starter
+
+This is a starter template for building a SaaS application using **Next.js** with support for authentication, Stripe integration for payments, and a dashboard for logged-in users.
+
+**Demo: [https://next-saas-start.vercel.app/](https://next-saas-start.vercel.app/)**
+
+## Features
+
+- Marketing landing page (`/`) with animated Terminal element
+- Pricing page (`/pricing`) which connects to Stripe Checkout
+- Dashboard pages with CRUD operations on users/teams
+- Basic RBAC with Owner and Member roles
+- Subscription management with Stripe Customer Portal
+- Email/password authentication with JWTs stored to cookies
+- Global middleware to protect logged-in routes
+- Local middleware to protect Server Actions or validate Zod schemas
+- Activity logging system for any user events
+
+## Tech Stack
+
+- **Framework**: [Next.js](https://nextjs.org/)
+- **Database**: [Postgres](https://www.postgresql.org/)
+- **ORM**: [Drizzle](https://orm.drizzle.team/)
+- **Payments**: [Stripe](https://stripe.com/)
+- **UI Library**: [shadcn/ui](https://ui.shadcn.com/)
+
+## Getting Started
+
+```bash
+git clone https://github.com/nextjs/saas-starter
+cd saas-starter
+pnpm install
+```
+
+## Running Locally
+
+[Install](https://docs.stripe.com/stripe-cli) and log in to your Stripe account:
+
+```bash
+stripe login
+```
+
+Use the included setup script to create your `.env` file:
+
+```bash
+pnpm db:setup
+```
+
+Run the database migrations and seed the database with a default user and team:
+
+```bash
+pnpm db:migrate
+pnpm db:seed
+```
+
+This will create the following user and team:
+
+- User: `test@test.com`
+- Password: `admin123`
+
+You can also create new users through the `/sign-up` route.
+
+Finally, run the Next.js development server:
+
+```bash
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the app in action.
+
+You can listen for Stripe webhooks locally through their CLI to handle subscription change events:
+
+```bash
+stripe listen --forward-to localhost:3000/api/stripe/webhook
+```
+
+## Testing Payments
+
+To test Stripe payments, use the following test card details:
+
+- Card Number: `4242 4242 4242 4242`
+- Expiration: Any future date
+- CVC: Any 3-digit number
+
+## Going to Production
+
+When you&#039;re ready to deploy your SaaS application to production, follow these steps:
+
+### Set up a production Stripe webhook
+
+1. Go to the Stripe Dashboard and create a new webhook for your production environment.
+2. Set the endpoint URL to your production API route (e.g., `https://yourdomain.com/api/stripe/webhook`).
+3. Select the events you want to listen for (e.g., `checkout.session.completed`, `customer.subscription.updated`).
+
+### Deploy to Vercel
+
+1. Push your code to a GitHub repository.
+2. Connect your repository to [Vercel](https://vercel.com/) and deploy it.
+3. Follow the Vercel deployment process, which will guide you through setting up your project.
+
+### Add environment variables
+
+In your Vercel project settings (or during deployment), add all the necessary environment variables. Make sure to update the values for the production environment, including:
+
+1. `BASE_URL`: Set this to your production domain.
+2. `STRIPE_SECRET_KEY`: Use your Stripe secret key for the production environment.
+3. `STRIPE_WEBHOOK_SECRET`: Use the webhook secret from the production webhook you created in step 1.
+4. `POSTGRES_URL`: Set this to your production database URL.
+5. `AUTH_SECRET`: Set this to a random string. `openssl rand -base64 32` will generate one.
+
+## Other Templates
+
+While this template is intentionally minimal and to be used as a learning resource, there are other paid versions in the community which are more full-featured:
+
+- https://achromatic.dev
+- https://shipfa.st
+- https://makerkit.dev
+- https://zerotoshipped.com
+- https://turbostarter.dev
+</code></pre></div>
+    <div class="file-container" id="tsconfig-json">
+        <div class="file-header">
+            <span>tsconfig.json</span>
+            <span class="file-size">0.7 KB</span>
+        </div>
+    <pre><code>{
+  &quot;compilerOptions&quot;: {
+    &quot;target&quot;: &quot;ESNext&quot;,
+    &quot;lib&quot;: [
+      &quot;dom&quot;,
+      &quot;dom.iterable&quot;,
+      &quot;esnext&quot;
+    ],
+    &quot;allowJs&quot;: true,
+    &quot;skipLibCheck&quot;: true,
+    &quot;strict&quot;: true,
+    &quot;noEmit&quot;: true,
+    &quot;esModuleInterop&quot;: true,
+    &quot;module&quot;: &quot;esnext&quot;,
+    &quot;moduleResolution&quot;: &quot;bundler&quot;,
+    &quot;resolveJsonModule&quot;: true,
+    &quot;isolatedModules&quot;: true,
+    &quot;jsx&quot;: &quot;react-jsx&quot;,
+    &quot;incremental&quot;: true,
+    &quot;baseUrl&quot;: &quot;.&quot;,
+    &quot;plugins&quot;: [
+      {
+        &quot;name&quot;: &quot;next&quot;
+      }
+    ],
+    &quot;paths&quot;: {
+      &quot;@/*&quot;: [
+        &quot;./*&quot;
+      ]
+    }
+  },
+  &quot;include&quot;: [
+    &quot;next-env.d.ts&quot;,
+    &quot;**/*.ts&quot;,
+    &quot;**/*.tsx&quot;,
+    &quot;.next/types/**/*.ts&quot;,
+    &quot;.next\\dev/types/**/*.ts&quot;
+  ],
+  &quot;exclude&quot;: [
+    &quot;node_modules&quot;
+  ]
+}
+</code></pre></div>
+</body>
+</html>
+  

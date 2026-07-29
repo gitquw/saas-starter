@@ -1,0 +1,13 @@
+$ stripe sandbox create --email abc@cde.com
+Setting up your sandbox... done.
+{
+  "secret_key": "rkcs_test_51TxJ4x9ctIkqsBlJ4QBI1fqgB1IHsPW1Nd3sjYN1etM2QuhnMRMKOk4MBbvkczXs7Ucutm6k4VRx2XZ2w1qmnt00YijoHlLZ",
+  "publishable_key": "pk_test_51TxJ4x9ctIkqsBlJGUQoShzcrjkngaXrdQwC7OJ2fuDn6w10YoTjzTKYXCb7GRol7eez9sWs5IDBax1re7eRS4Kx00uHVOuC2M",
+  "claim_url": "https://dashboard.stripe.com/onboard_sandbox/YWNjdF8xVHhKNHg5Y3RJa3FzQmxKLDE3ODU2NTE4MDIv100oBXFb9rZ",
+  "account_id": "acct_1TxJ4x9ctIkqsBlJ",
+  "expires_at": "2026-08-02"
+}
+
+Use the keys above to start building your integration.
+
+This sandbox expires 2026-08-02 (in 7 days). Claim it before then by using the above claim_url or running `stripe sandbox claim`.
