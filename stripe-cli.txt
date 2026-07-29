@@ -1,3 +1,5 @@
+local stripe sandbox
+
 $ stripe sandbox create --email abc@cde.com
 Setting up your sandbox... done.
 {
@@ -11,3 +13,18 @@ Setting up your sandbox... done.
 Use the keys above to start building your integration.
 
 This sandbox expires 2026-08-02 (in 7 days). Claim it before then by using the above claim_url or running `stripe sandbox claim`.
+
+
+stripe sandbox on codespaces:
+stripe sandbox create --email abc@def.com
+Setting up your sandbox... done.
+{
+  "secret_key": "rkcs_test_51TxpGJIdQbUQUpDmIijc44deykdQ0AdOaNCqSkDQM0xG9jeiQ0v8eHMari8Vm1XYFgFw9CsJnzclfimAZ2BmtZ0056rBkVoE",
+  "publishable_key": "pk_test_51TxpGJIdQbUQUpDmRSXwstSkGDVWdiQSayOIEEI6SARtPyS56MhJduYpGntJ1fHHtgr9XOePhwvgfkyJ3RXll6dv00gcXgDqyY",
+  "claim_url": "https://dashboard.stripe.com/onboard_sandbox/YWNjdF8xVHhwR0pJZFFiVVFVcERtLDE3ODU5MTM5ODEv1004rGuJA09",
+  "account_id": "acct_1TxpGJIdQbUQUpDm",
+  "expires_at": "2026-08-05"
+}
+
+Use the keys above to start building your integration.
+This sandbox expires 2026-08-05 (in 7 days). Claim it before then by using the above claim_url or running `stripe sandbox claim`.
